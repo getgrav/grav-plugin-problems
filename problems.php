@@ -139,24 +139,6 @@ class ProblemsPlugin extends Plugin
         }
         $this->results['gd'] = [$gd_status => 'PHP GD (Image Manipulation Library) is '. $gd_adjective . 'installed'];
 
-
-
-        // Check if Root is writeable and essential folders Exist
-        if (is_writable(ROOT_DIR)) {
-            // Create Required Folders if they don't exist
-            if (!is_dir(LOG_DIR)) mkdir(LOG_DIR);
-            if (!is_dir(CACHE_DIR)) mkdir(CACHE_DIR);
-            if (!is_dir(IMAGES_DIR)) mkdir(IMAGES_DIR);
-            if (!is_dir(DATA_DIR)) mkdir(DATA_DIR);
-            $root_status = true;
-            $root_adjective = '';
-        } else {
-            $problems_found = true;
-            $root_status = false;
-            $root_adjective = 'not ';
-        }
-        $this->results['root'] = [$root_status => '<b>' . ROOT_DIR . '</b> is '. $root_adjective . 'writable'];
-
         // Check for essential files & perms
         $file_problems = [];
         foreach($essential_files as $file => $check_writable) {
