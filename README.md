@@ -13,6 +13,8 @@ You should now have all the plugin files under
 
 	/your/site/grav/user/plugins/problems
 
+>> NOTE: This plugin is a modular component for Grav which requires [Grav](http://github.com/getgrav/grav), the [Error](https://github.com/getgrav/grav-plugin-error) and [Problems](https://github.com/getgrav/grav-plugin-problems) plugins, and a theme to be installed in order to operate.
+
 # Usage
 
 `Problems` runs in the background and most of the time you will not know it is there. Although as soon as an issue is caught, the plugin will let you know.
