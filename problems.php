@@ -106,6 +106,7 @@ class ProblemsPlugin extends Plugin
             'cache' => true,
             'logs' => true,
             'images' => true,
+            'assets' => true,
             'system' => false,
             'user/data' => true,
             'user/pages' => false,
