@@ -54,7 +54,8 @@ class ProblemsPlugin extends Plugin
     protected function renderProblems()
     {
         $theme = 'antimatter';
-        $baseUrlRelative = rtrim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), '/'); //make this dynamic
+        $uri = Registry::get('Uri');
+        $baseUrlRelative = $uri->rootUrl(false);
         $themeUrl = $baseUrlRelative .'/'. USER_PATH . basename(THEMES_DIR) .'/'. $theme;
         $problemsUrl = $baseUrlRelative . '/user/plugins/problems';
 
