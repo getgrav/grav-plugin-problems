@@ -17,7 +17,7 @@ class ProblemsPlugin extends Plugin
      */
     public static function getSubscribedEvents() {
         return [
-            'onAfterInitPlugins' => ['onAfterInitPlugins', 0],
+            'onPluginsInitialized' => ['onPluginsInitialized', 0],
             'onFatalException' => ['onFatalException', 0]
         ];
     }
@@ -30,7 +30,7 @@ class ProblemsPlugin extends Plugin
         }
     }
 
-    public function onAfterInitPlugins()
+    public function onPluginsInitialized()
     {
         /** @var Cache $cache */
         $cache = $this->grav['cache'];
