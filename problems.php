@@ -1,21 +1,28 @@
 <?php
 namespace Grav\Plugin;
 
-use \Grav\Common\Cache;
-use \Grav\Common\Plugin;
-use \Grav\Common\Registry;
+use Grav\Common\Cache;
+use Grav\Common\Plugin;
+use Grav\Common\Uri;
 use Tracy\Debugger;
 
 class ProblemsPlugin extends Plugin
 {
-    /**
-     * @var bool
-     */
-    protected $active = false;
-
     protected $results = array();
 
-    public function onFatalException($e)
+    protected $check;
+
+    /**
+     * @return array
+     */
+    public static function getSubscribedEvents() {
+        return [
+            'onPluginsInitialized' => ['onPluginsInitialized', 0],
+            'onFatalException' => ['onFatalException', 0]
+        ];
+    }
+
+    public function onFatalException()
     {
         // Run through potential issues
         if ($this->problemChecker()) {
@@ -23,19 +30,20 @@ class ProblemsPlugin extends Plugin
         }
     }
 
-    public function onAfterInitPlugins()
+    public function onPluginsInitialized()
     {
-        $cache = Registry::get('Cache');
+        /** @var Cache $cache */
+        $cache = $this->grav['cache'];
         $validated_prefix = 'validated-';
 
-        $this->check = CACHE_DIR . $validated_prefix .$cache->getKey();
+        $this->check = CACHE_DIR . $validated_prefix . $cache->getKey();
 
-        if(!file_exists($this->check)) {
+        if (!file_exists($this->check)) {
 
             // If no issues remain, save a state file in the cache
             if (!$this->problemChecker()) {
                 // delete any exising validated files
-                foreach (glob(CACHE_DIR . $validated_prefix. '*') as $filename) {
+                foreach (glob(CACHE_DIR . $validated_prefix . '*') as $filename) {
                      unlink($filename);
                 }
 
@@ -47,15 +55,16 @@ class ProblemsPlugin extends Plugin
             }
 
         }
-
-
     }
 
     protected function renderProblems()
     {
         $theme = 'antimatter';
-        $baseUrlRelative = rtrim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), '/'); //make this dynamic
-        $themeUrl = $baseUrlRelative .'/'. USER_PATH . basename(THEMES_DIR) .'/'. $theme;
+
+        /** @var Uri $uri */
+        $uri = $this->grav['uri'];
+        $baseUrlRelative = $uri->rootUrl(false);
+        $themeUrl = $baseUrlRelative . '/' . USER_PATH . basename(THEMES_DIR) . '/' . $theme;
         $problemsUrl = $baseUrlRelative . '/user/plugins/problems';
 
         $html = file_get_contents(__DIR__ . '/html/problems.html');
@@ -106,6 +115,7 @@ class ProblemsPlugin extends Plugin
             'cache' => true,
             'logs' => true,
             'images' => true,
+            'assets' => true,
             'system' => false,
             'user/data' => true,
             'user/pages' => false,
@@ -143,6 +153,7 @@ class ProblemsPlugin extends Plugin
         $file_problems = [];
         foreach($essential_files as $file => $check_writable) {
             $file_path = ROOT_DIR . $file;
+            $is_dir = false;
             if (!file_exists($file_path)) {
                 $problems_found = true;
                 $file_status = false;
