@@ -1,6 +1,15 @@
-name: Problem Detector Plugin
-version: 1.0.0
+name: Problem Detector
+version: 1.1.0
 description: Detects and reports problems found in the site.
+icon: check-square
+author:
+  name: Team Grav
+  email: devs@getgrav.org
+  url: http://getgrav.org
+homepage: https://github.com/getgrav/grav-plugin-problems
+keywords: problems, plugin, detector, assistant, required
+bugs: https://github.com/getgrav/grav-plugin-problems/issues
+license: MIT
 
 form:
   fields:
