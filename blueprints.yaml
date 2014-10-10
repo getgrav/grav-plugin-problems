@@ -12,6 +12,7 @@ bugs: https://github.com/getgrav/grav-plugin-problems/issues
 license: MIT
 
 form:
+  validation: strict
   fields:
     enabled:
       type: toggle
