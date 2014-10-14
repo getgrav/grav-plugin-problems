@@ -24,6 +24,11 @@ class ProblemsPlugin extends Plugin
 
     public function onFatalException()
     {
+        if ($this->isAdmin()) {
+            $this->active = false;
+            return;
+        }
+
         // Run through potential issues
         if ($this->problemChecker()) {
             $this->renderProblems();
@@ -32,6 +37,11 @@ class ProblemsPlugin extends Plugin
 
     public function onPluginsInitialized()
     {
+        if ($this->isAdmin()) {
+            $this->active = false;
+            return;
+        }
+
         /** @var Cache $cache */
         $cache = $this->grav['cache'];
         $validated_prefix = 'validated-';
