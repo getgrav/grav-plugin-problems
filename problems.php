@@ -4,7 +4,6 @@ namespace Grav\Plugin;
 use Grav\Common\Cache;
 use Grav\Common\Plugin;
 use Grav\Common\Uri;
-use Tracy\Debugger;
 
 class ProblemsPlugin extends Plugin
 {
@@ -109,8 +108,15 @@ class ProblemsPlugin extends Plugin
 
     protected function getListRow($status, $text)
     {
+        if ($status == 'error') {
+            $icon = 'fa-times';
+        } elseif ($status == 'info') {
+            $icon = 'fa-info';
+        } else {
+            $icon = 'fa-check';
+        }
         $output = "\n";
-        $output .= '<li class="' . ($status ? 'success' : 'error') . ' clearfix"><i class="fa fa-' . ($status ? 'check' : 'times') . '"></i><p>'. $text . '</p></li>';
+        $output .= '<li class="' . $status . ' clearfix"><i class="fa fa-fw '. $icon . '"></i><p>'. $text . '</p></li>';
         return $output;
     }
 
@@ -120,7 +126,6 @@ class ProblemsPlugin extends Plugin
         $problems_found = false;
 
         $essential_files = [
-            'index.php' => false,
             '.htaccess' => false,
             'cache' => true,
             'logs' => true,
@@ -140,22 +145,22 @@ class ProblemsPlugin extends Plugin
         if (version_compare(phpversion(), '5.4.0', '<')) {
             $problems_found = true;
             $php_version_adjective = 'lower';
-            $php_version_status = false;
+            $php_version_status = 'error';
 
         } else {
             $php_version_adjective = 'greater';
-            $php_version_status = true;
+            $php_version_status = 'success';
         }
         $this->results['php'] = [$php_version_status => 'Your PHP version (' . phpversion() . ') is '. $php_version_adjective . ' than the minimum required: <b>' . $min_php_version . '</b>'];
 
         // Check for GD library
         if (defined('GD_VERSION') && function_exists('gd_info')) {
             $gd_adjective = '';
-            $gd_status = true;
+            $gd_status = 'success';
         } else {
             $problems_found = true;
             $gd_adjective = 'not ';
-            $gd_status = false;
+            $gd_status = 'error';
         }
         $this->results['gd'] = [$gd_status => 'PHP GD (Image Manipulation Library) is '. $gd_adjective . 'installed'];
 
@@ -166,18 +171,18 @@ class ProblemsPlugin extends Plugin
             $is_dir = false;
             if (!file_exists($file_path)) {
                 $problems_found = true;
-                $file_status = false;
+                $file_status = 'error';
                 $file_adjective = 'does not exist';
 
             } else {
-                $file_status = true;
+                $file_status = 'success';
                 $file_adjective = 'exists';
                 $is_writeable = is_writable($file_path);
                 $is_dir = is_dir($file_path);
 
                 if ($check_writable) {
                     if (!$is_writeable) {
-                        $file_status = false;
+                        $file_status = 'error';
                         $problems_found = true;
                         $file_adjective .= ' but is <b class="underline">not writeable</b>';
                     } else {
@@ -185,9 +190,9 @@ class ProblemsPlugin extends Plugin
                     }
                 }
             }
-            if (!$file_status || $is_dir || $check_writable) {
-                $file_problems[$file_path] = [$file_status => $file_adjective];
-            }
+
+            $file_problems[$file_path] = [$file_status => $file_adjective];
+
         }
         if (sizeof($file_problems) > 0) {
 
