@@ -32,6 +32,28 @@ You should now have all the plugin files under
 
 `Problems` runs in the background and most of the time you will not know it is there. Although as soon as an issue is caught, the plugin will let you know.
 
+`Problems` checks for the following common issues:
+
+|                Check                |                                                Description                                                |
+| :---------------------------------- | :-------------------------------------------------------------------------------------------------------- |
+| PHP Version                         | Checks to make sure the PHP version being run by the server meets or exceeds Grav's minimum requirements. |
+| PHP GD (Image Manipulation Library) | Checks to make sure that PHP GD is installed.                                                             |
+| .htaccess                           | Checks to make sure that there is an `.htaccess` file in Grav's root directory.                           |
+| Cache                               | Checks the `/cache` folder's existence and verifies that it is writeable.                                 |
+| Logs                                | Checks the `/logs` folder's existence and verifies that it is writeable.                                  |
+| Images                              | Checks the `/images` folder's existence and verifies that it is writeable.                                |
+| Assets                              | Checks the `/assets` folder's existence and verifies that it is writeable.                                |
+| System                              | Checks the `/system` folder's existence.                                                                  |
+| Data                                | Checks the `/user/data` folder's existence and verifies that it is writeable.                             |
+| Pages                               | Checks the `/user/images` folder's existence.                                                             |
+| Config                              | Checks the `/user/config` folder's existence.                                                             |
+| Error                               | Checks to make sure the **Error** plugin is installed in `/user/plugins/error`.                           |
+| Plugins                             | Checks the `/user/plugins` folder's existence.                                                            |
+| Themes                              | Checks the `/user/themes` folder's existence.                                                             |
+| Vendor                              | Checks the `/vendor` folder's existence.                                                                  |
+
+If an issue is discovered, you will be greeted with a page that lists these checks and whether or not your install passed or failed them. Green checks mean it passed, and a red x indicates that the there is something amiss with the item.
+
 Problems uses the cache as refresh indicator. That means that if nothing has changed anywhere, the plugin will just skip its validation tests altogether. 
 
 If a change is caught and the cache is refreshed, the plugin will loop through its validation tests and making sure nothing is out of place.
