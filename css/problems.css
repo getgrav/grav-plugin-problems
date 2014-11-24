@@ -25,6 +25,12 @@ ul.problems li.error {
     color: #b52b27;
 }
 
+ul.problems li.info {
+    background: #F4F8FA;
+    border-left: 5px solid #5bc0de;
+    color: #28a1c5;
+}
+
 ul.problems .fa {
     font-size: 3rem;
     vertical-align: middle;
