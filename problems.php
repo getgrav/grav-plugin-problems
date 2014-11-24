@@ -14,7 +14,8 @@ class ProblemsPlugin extends Plugin
     /**
      * @return array
      */
-    public static function getSubscribedEvents() {
+    public static function getSubscribedEvents()
+    {
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
             'onFatalException' => ['onFatalException', 0]
@@ -43,7 +44,7 @@ class ProblemsPlugin extends Plugin
 
         /** @var Cache $cache */
         $cache = $this->grav['cache'];
-        $validated_prefix = 'validated-';
+        $validated_prefix = 'problem-check-';
 
         $this->check = CACHE_DIR . $validated_prefix . $cache->getKey();
 
@@ -51,9 +52,10 @@ class ProblemsPlugin extends Plugin
 
             // If no issues remain, save a state file in the cache
             if (!$this->problemChecker()) {
-                // delete any exising validated files
-                foreach (glob(CACHE_DIR . $validated_prefix . '*') as $filename) {
-                     unlink($filename);
+
+                // delete any existing validated files
+                foreach (new \GlobIterator(CACHE_DIR . $validated_prefix . '*') as $fileInfo) {
+                    @unlink($fileInfo->getPathname());
                 }
 
                 // create a file in the cache dir so it only runs on cache changes
@@ -166,7 +168,7 @@ class ProblemsPlugin extends Plugin
 
         // Check for essential files & perms
         $file_problems = [];
-        foreach($essential_files as $file => $check_writable) {
+        foreach ($essential_files as $file => $check_writable) {
             $file_path = ROOT_DIR . $file;
             $is_dir = false;
             if (!file_exists($file_path)) {
