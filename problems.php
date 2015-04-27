@@ -128,7 +128,6 @@ class ProblemsPlugin extends Plugin
         $problems_found = false;
 
         $essential_files = [
-            '.htaccess' => false,
             'cache' => true,
             'logs' => true,
             'images' => true,
