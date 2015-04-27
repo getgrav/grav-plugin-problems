@@ -128,7 +128,6 @@ class ProblemsPlugin extends Plugin
         $problems_found = false;
 
         $essential_files = [
-            '.htaccess' => false,
             'cache' => true,
             'logs' => true,
             'images' => true,
@@ -144,7 +143,7 @@ class ProblemsPlugin extends Plugin
         ];
 
         // Check PHP version
-        if (version_compare(phpversion(), '5.4.0', '<')) {
+        if (version_compare(phpversion(), $min_php_version, '<')) {
             $problems_found = true;
             $php_version_adjective = 'lower';
             $php_version_status = 'error';
@@ -165,6 +164,17 @@ class ProblemsPlugin extends Plugin
             $gd_status = 'error';
         }
         $this->results['gd'] = [$gd_status => 'PHP GD (Image Manipulation Library) is '. $gd_adjective . 'installed'];
+
+        // Check for PHP CURL library
+        if (function_exists('curl_version')) {
+            $curl_adjective = '';
+            $curl_status = 'success';
+        } else {
+            $problems_found = true;
+            $curl_adjective = 'not ';
+            $curl_status = 'error';
+        }
+        $this->results['curl'] = [$curl_status => 'PHP Curl (Data Transfer Library) is '. $curl_adjective . 'installed'];
 
         // Check for essential files & perms
         $file_problems = [];
