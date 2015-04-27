@@ -165,6 +165,17 @@ class ProblemsPlugin extends Plugin
         }
         $this->results['gd'] = [$gd_status => 'PHP GD (Image Manipulation Library) is '. $gd_adjective . 'installed'];
 
+        // Check for PHP CURL library
+        if (function_exists('curl_version')) {
+            $curl_adjective = '';
+            $curl_status = 'success';
+        } else {
+            $problems_found = true;
+            $curl_adjective = 'not ';
+            $curl_status = 'error';
+        }
+        $this->results['curl'] = [$curl_status => 'PHP Curl (Data Transfer Library) is '. $curl_adjective . 'installed'];
+
         // Check for essential files & perms
         $file_problems = [];
         foreach ($essential_files as $file => $check_writable) {
