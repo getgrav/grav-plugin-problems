@@ -143,7 +143,7 @@ class ProblemsPlugin extends Plugin
         ];
 
         // Check PHP version
-        if (version_compare(phpversion(), '5.4.0', '<')) {
+        if (version_compare(phpversion(), $min_php_version, '<')) {
             $problems_found = true;
             $php_version_adjective = 'lower';
             $php_version_status = 'error';
