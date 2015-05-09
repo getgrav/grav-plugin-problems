@@ -142,6 +142,10 @@ class ProblemsPlugin extends Plugin
             'vendor' => false
         ];
 
+        if (version_compare(GRAV_VERSION, '0.9.27', ">=")) {
+            $essential_files['backup'] = true;
+        }
+
         // Check PHP version
         if (version_compare(phpversion(), $min_php_version, '<')) {
             $problems_found = true;
