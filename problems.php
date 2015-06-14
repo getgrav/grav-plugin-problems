@@ -144,6 +144,11 @@ class ProblemsPlugin extends Plugin
 
         if (version_compare(GRAV_VERSION, '0.9.27', ">=")) {
             $essential_files['backup'] = true;
+            $backup_folder = ROOT_DIR . 'backup';
+            // try to create backup folder if missing
+            if (!file_exists($backup_folder)) {
+                mkdir($backup_folder, 0770);
+            }
         }
 
         // Check PHP version
