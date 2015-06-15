@@ -49,10 +49,8 @@ class ProblemsPlugin extends Plugin
         $this->check = CACHE_DIR . $validated_prefix . $cache->getKey();
 
         if (!file_exists($this->check)) {
-
             // If no issues remain, save a state file in the cache
             if (!$this->problemChecker()) {
-
                 // delete any existing validated files
                 foreach (new \GlobIterator(CACHE_DIR . $validated_prefix . '*') as $fileInfo) {
                     @unlink($fileInfo->getPathname());
@@ -82,7 +80,6 @@ class ProblemsPlugin extends Plugin
 
         $problems = '';
         foreach ($this->results as $key => $result) {
-
             if ($key == 'files') {
                 foreach ($result as $filename => $file_result) {
                     foreach ($file_result as $status => $text) {
@@ -216,7 +213,6 @@ class ProblemsPlugin extends Plugin
 
         }
         if (sizeof($file_problems) > 0) {
-
             $this->results['files'] = $file_problems;
         }
 
