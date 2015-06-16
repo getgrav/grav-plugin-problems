@@ -1,3 +1,9 @@
+# v1.1.6
+## 06/16/2015
+
+2. [](#new)
+    * Try to create missing `backup` folder if it is missing
+
 # v1.1.5
 ## 05/09/2015
 
