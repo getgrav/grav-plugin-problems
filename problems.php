@@ -182,6 +182,29 @@ class ProblemsPlugin extends Plugin
         }
         $this->results['curl'] = [$curl_status => 'PHP Curl (Data Transfer Library) is '. $curl_adjective . 'installed'];
 
+        // Check for PHP Open SSL library
+        if (extension_loaded('openssl') && defined('OPENSSL_VERSION_TEXT')) {
+            $ssl_adjective = '';
+            $ssl_status = 'success';
+        } else {
+            $problems_found = true;
+            $ssl_adjective = 'not ';
+            $ssl_status = 'error';
+        }
+        $this->results['ssl'] = [$ssl_status => 'PHP OpenSSL (Secure Sockets Library) is '. $ssl_adjective . 'installed'];
+
+        // Check for PHP MbString library
+        if (extension_loaded('mbstring')) {
+            $mbstring_adjective = '';
+            $mbstring_status = 'success';
+        } else {
+            $problems_found = true;
+            $mbstring_adjective = 'not ';
+            $mbstring_status = 'error';
+        }
+        $this->results['mbstring'] = [$mbstring_status => 'PHP Mbstring (Multibyte String Library) is '. $mbstring_adjective . 'installed'];
+
+
         // Check for essential files & perms
         $file_problems = [];
         foreach ($essential_files as $file => $check_writable) {
