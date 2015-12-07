@@ -80,10 +80,10 @@ class ProblemsPlugin extends Plugin
 
         $problems = '';
         foreach ($this->results as $key => $result) {
-            if ($key == 'files') {
-                foreach ($result as $filename => $file_result) {
-                    foreach ($file_result as $status => $text) {
-                        $problems .= $this->getListRow($status, '<b>' . $filename . '</b> ' . $text);
+            if ($key == 'files' || $key == 'apache') {
+                foreach ($result as $key_text => $value_text) {
+                    foreach ($value_text as $status => $text) {
+                        $problems .= $this->getListRow($status, '<b>' . $key_text . '</b> ' . $text);
                     }
                 }
             } else {
@@ -148,6 +148,31 @@ class ProblemsPlugin extends Plugin
             }
         }
 
+        // Perform some Apache checks
+        if (strpos(php_sapi_name(), 'apache') !== false) {
+
+            $require_apache_modules = ['mod_rewrite', 'mod_headers'];
+            $apache_modules = apache_get_modules();
+
+            $apache_status = [];
+
+            foreach ($require_apache_modules as $module) {
+                if (in_array($module, $apache_modules)) {
+                    $apache_module_adjective = ' Apache module is enabled';
+                    $apache_module_status = 'success';
+                } else {
+                    $problems_found = true;
+                    $apache_module_adjective = ' Apache module is not installed or enabled';
+                    $apache_module_status = 'error';
+                }
+                $apache_status[$module] = [$apache_module_status => $apache_module_adjective];
+            }
+
+            if (sizeof($apache_status) > 0) {
+                $this->results['apache'] = $apache_status;
+            }
+        }
+
         // Check PHP version
         if (version_compare(phpversion(), $min_php_version, '<')) {
             $problems_found = true;
@@ -203,6 +228,8 @@ class ProblemsPlugin extends Plugin
             $mbstring_status = 'error';
         }
         $this->results['mbstring'] = [$mbstring_status => 'PHP Mbstring (Multibyte String Library) is '. $mbstring_adjective . 'installed'];
+
+        // Check file permissions
 
 
         // Check for essential files & perms
