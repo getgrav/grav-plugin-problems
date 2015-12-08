@@ -1,3 +1,10 @@
+# v1.3.0
+## 12/07/2015
+
+1. [](#improved)
+    * Added check for PHP `OpenSSL`, `Mbstring` and `Curl` are installed
+    * Added check to ensure `mod_rewrite` and `mod_headers` are installed if running Apache
+
 # v1.2.0
 ## 08/25/2015
 
