@@ -1,3 +1,9 @@
+# v1.3.1
+## 12/07/2015
+
+1. [](#improved)
+    * Added executable check on `/bin/` files
+
 # v1.3.0
 ## 12/07/2015
 

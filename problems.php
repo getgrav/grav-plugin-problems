@@ -80,7 +80,7 @@ class ProblemsPlugin extends Plugin
 
         $problems = '';
         foreach ($this->results as $key => $result) {
-            if ($key == 'files' || $key == 'apache') {
+            if ($key == 'files' || $key == 'apache' || $key == 'execute') {
                 foreach ($result as $key_text => $value_text) {
                     foreach ($value_text as $status => $text) {
                         $problems .= $this->getListRow($status, '<b>' . $key_text . '</b> ' . $text);
@@ -229,7 +229,26 @@ class ProblemsPlugin extends Plugin
         }
         $this->results['mbstring'] = [$mbstring_status => 'PHP Mbstring (Multibyte String Library) is '. $mbstring_adjective . 'installed'];
 
-        // Check file permissions
+        // Execute permissions
+        $execute_problems = [];
+        $dir = new \DirectoryIterator(ROOT_DIR . '/bin');
+        foreach ($dir as $file) {
+            if (!$file->isDot()) {
+                if ($file->isExecutable()) {
+                    $execute_adjective = ' is executable';
+                    $execute_status = 'success';
+                } else {
+                    $problems_found = true;
+                    $execute_adjective = ' is <strong>not</strong> executable';
+                    $execute_status = 'error';
+                }
+                $execute_problems['/bin/'.$file->getFilename()] = [$execute_status => $execute_adjective];
+            }
+        }
+
+        if (sizeof($execute_problems) > 0) {
+            $this->results['execute'] = $execute_problems;
+        }
 
 
         // Check for essential files & perms
