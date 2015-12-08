@@ -41,6 +41,7 @@ You should now have all the plugin files under
 | PHP Version                             | Checks to make sure the PHP version being run by the server meets or exceeds Grav's minimum requirements. |
 | PHP GD (Image Manipulation Library)     | Checks to make sure that PHP GD is installed.                                                             |
 | PHP Curl (Data Transfer Library)        | Checks to make sure that PHP Curl is installed.                                                           |
+| PHP OpenSSL (Secure Sockets Library)    | Checks to make sure that PHP OpenSSL is installed.                                                        |
 | PHP Mbstring (Multibyte String Library) | Checks to make sure that PHP Mbstring is installed.                                                       |
 | .htaccess                               | Checks to make sure that there is an `.htaccess` file in Grav's root directory.                           |
 | Cache                                   | Checks the `/cache` folder's existence and verifies that it is writeable.                                 |
