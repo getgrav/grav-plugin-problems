@@ -231,7 +231,7 @@ class ProblemsPlugin extends Plugin
 
         // Execute permissions
         $execute_problems = [];
-        $dir = new \DirectoryIterator(ROOT_DIR . '/bin');
+        $dir = new \DirectoryIterator(ROOT_DIR . 'bin');
         foreach ($dir as $file) {
             if (!$file->isDot()) {
                 if ($file->isExecutable()) {
