@@ -1,3 +1,10 @@
+# v1.3.2
+## 12/09/2015
+
+1. [](#improved)
+    * Skip windows platforms for executable permissions check
+    * Removed mod_headers from required Apache modules check
+
 # v1.3.1
 ## 12/07/2015
 
