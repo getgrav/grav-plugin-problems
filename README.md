@@ -37,7 +37,6 @@ You should now have all the plugin files under
 | Check                                   | Description                                                                                               |
 | :----------------------------------     | :-------------------------------------------------------------------------------------------------------- |
 | Apache `mod_rewrite`                    | Checks to ensure `mod_rewrite` is enabled if you are running an Apache server.                            |
-| Apache `mod_headers`                    | Checks to ensure `mod_headers` is enabled if you are running an Apache server.                            |
 | PHP Version                             | Checks to make sure the PHP version being run by the server meets or exceeds Grav's minimum requirements. |
 | PHP GD (Image Manipulation Library)     | Checks to make sure that PHP GD is installed.                                                             |
 | PHP Curl (Data Transfer Library)        | Checks to make sure that PHP Curl is installed.                                                           |
