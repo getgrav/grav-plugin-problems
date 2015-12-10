@@ -151,7 +151,7 @@ class ProblemsPlugin extends Plugin
         // Perform some Apache checks
         if (strpos(php_sapi_name(), 'apache') !== false) {
 
-            $require_apache_modules = ['mod_rewrite', 'mod_headers'];
+            $require_apache_modules = ['mod_rewrite'];
             $apache_modules = apache_get_modules();
 
             $apache_status = [];
@@ -229,25 +229,27 @@ class ProblemsPlugin extends Plugin
         }
         $this->results['mbstring'] = [$mbstring_status => 'PHP Mbstring (Multibyte String Library) is '. $mbstring_adjective . 'installed'];
 
-        // Execute permissions
-        $execute_problems = [];
-        $dir = new \DirectoryIterator(ROOT_DIR . '/bin');
-        foreach ($dir as $file) {
-            if (!$file->isDot()) {
-                if ($file->isExecutable()) {
-                    $execute_adjective = ' is executable';
-                    $execute_status = 'success';
-                } else {
-                    $problems_found = true;
-                    $execute_adjective = ' is <strong>not</strong> executable';
-                    $execute_status = 'error';
+        // Execute permissions check for non-windows platforms
+        if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+            $execute_problems = [];
+            $dir = new \DirectoryIterator(ROOT_DIR . 'bin');
+            foreach ($dir as $file) {
+                if (!$file->isDot()) {
+                    if ($file->isExecutable()) {
+                        $execute_adjective = ' is executable';
+                        $execute_status = 'success';
+                    } else {
+                        $problems_found = true;
+                        $execute_adjective = ' is <strong>not</strong> executable';
+                        $execute_status = 'error';
+                    }
+                    $execute_problems['/bin/'.$file->getFilename()] = [$execute_status => $execute_adjective];
                 }
-                $execute_problems['/bin/'.$file->getFilename()] = [$execute_status => $execute_adjective];
             }
-        }
 
-        if (sizeof($execute_problems) > 0) {
-            $this->results['execute'] = $execute_problems;
+            if (sizeof($execute_problems) > 0) {
+                $this->results['execute'] = $execute_problems;
+            }
         }
 
 
