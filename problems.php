@@ -17,7 +17,7 @@ class ProblemsPlugin extends Plugin
     public static function getSubscribedEvents()
     {
         return [
-            'onPluginsInitialized' => ['onPluginsInitialized', 0],
+            'onPluginsInitialized' => ['onPluginsInitialized', 100001],
             'onFatalException' => ['onFatalException', 0]
         ];
     }
