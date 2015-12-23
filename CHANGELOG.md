@@ -1,3 +1,11 @@
+# v1.3.3
+## 12/09/2015
+
+1. [](#new)
+    * Set minimum PHP requirements to 5.5.9
+1. [](#improved)
+    * Ensure problems plugin runs before admin    
+
 # v1.3.2
 ## 12/09/2015
 
