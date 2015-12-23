@@ -17,7 +17,7 @@ class ProblemsPlugin extends Plugin
     public static function getSubscribedEvents()
     {
         return [
-            'onPluginsInitialized' => ['onPluginsInitialized', 0],
+            'onPluginsInitialized' => ['onPluginsInitialized', 100001],
             'onFatalException' => ['onFatalException', 0]
         ];
     }
@@ -121,7 +121,7 @@ class ProblemsPlugin extends Plugin
 
     protected function problemChecker()
     {
-        $min_php_version = '5.4.0';
+        $min_php_version = defined('GRAV_PHP_MIN') ? GRAV_PHP_MIN : '5.4.0';
         $problems_found = false;
 
         $essential_files = [
@@ -183,7 +183,7 @@ class ProblemsPlugin extends Plugin
             $php_version_adjective = 'greater';
             $php_version_status = 'success';
         }
-        $this->results['php'] = [$php_version_status => 'Your PHP version (' . phpversion() . ') is '. $php_version_adjective . ' than the minimum required: <b>' . $min_php_version . '</b>'];
+        $this->results['php'] = [$php_version_status => 'Your PHP version (' . phpversion() . ') is '. $php_version_adjective . ' than the minimum required: <b>' . $min_php_version . '</b>  - <a href="http://getgrav.org/blog/changing-php-requirements-to-5.5">Additional Information</a>'];
 
         // Check for GD library
         if (defined('GD_VERSION') && function_exists('gd_info')) {
