@@ -234,7 +234,7 @@ class ProblemsPlugin extends Plugin
             $execute_problems = [];
             $dir = new \DirectoryIterator(ROOT_DIR . 'bin');
             foreach ($dir as $file) {
-                if (!$file->isDot()) {
+                if (!$file->isDot() && ($file->getFilename() !== '.DS_Store')) {
                     if ($file->isExecutable()) {
                         $execute_adjective = ' is executable';
                         $execute_status = 'success';
