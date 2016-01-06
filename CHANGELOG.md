@@ -1,3 +1,10 @@
+# v1.4.0
+## 01/06/2016
+
+1. [](#improved)
+    * Avoid generating errors on .DS_Store files added to the bin/ folder by OSX
+    * Removed executable checks for bin/* commands. Going to document instead.
+
 # v1.3.3
 ## 12/09/2015
 
