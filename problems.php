@@ -218,6 +218,17 @@ class ProblemsPlugin extends Plugin
         }
         $this->results['ssl'] = [$ssl_status => 'PHP OpenSSL (Secure Sockets Library) is '. $ssl_adjective . 'installed'];
 
+        // Check for PHP XML library
+        if (extension_loaded('xml')) {
+            $xml_adjective = '';
+            $xml_status = 'success';
+        } else {
+            $problems_found = true;
+            $xml_adjective = 'not ';
+            $xml_status = 'error';
+        }
+        $this->results['xml'] = [$xml_status => 'PHP XML Library is '. $xml_adjective . 'installed'];
+
         // Check for PHP MbString library
         if (extension_loaded('mbstring')) {
             $mbstring_adjective = '';
