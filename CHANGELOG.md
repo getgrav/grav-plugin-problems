@@ -1,3 +1,11 @@
+# v1.4.1
+## 05/03/2016
+
+1. [](#new)
+    * Added a check for XML support in PHP
+1. [](#improved)
+    * Use common language strings in blueprints
+
 # v1.4.0
 ## 01/06/2016
 
