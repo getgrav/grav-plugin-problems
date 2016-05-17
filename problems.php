@@ -293,6 +293,24 @@ class ProblemsPlugin extends Plugin
             $this->results['files'] = $file_problems;
         }
 
+        $compression_status = 'success';
+        $compression_message = 'No compression issues found';
+        // Check for compression
+        if (!function_exists('fastcgi_finish_request')) {
+            //not php-fpm
+            if (extension_loaded('zlib') && $this->grav['config']->get('system.cache.gzip')) {
+                $output_compression = ini_get("zlib.output_compression");
+                if ($output_compression === '1' || $output_compression === 'On') {
+                    $problems_found = true;
+                    $compression_status = 'error';
+                    $compression_message = 'Compression is enabled both in PHP and in Grav, and you\'re not running PHP-FPM. Please turn off the server-side gzip compression (mod_deflate)';
+                }
+            }
+        }
+
+        $this->results['compression'] = [$compression_status => $compression_message];
+
+
         return $problems_found;
     }
 }
