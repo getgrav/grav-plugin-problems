@@ -78,20 +78,39 @@ class ProblemsPlugin extends Plugin
 
         $html = file_get_contents(__DIR__ . '/html/problems.html');
 
-        $problems = '';
-        foreach ($this->results as $key => $result) {
-            if ($key == 'files' || $key == 'apache' || $key == 'execute') {
-                foreach ($result as $key_text => $value_text) {
-                    foreach ($value_text as $status => $text) {
-                        $problems .= $this->getListRow($status, '<b>' . $key_text . '</b> ' . $text);
+        /**
+         * Process the results, ignore the statuses passed as $ignore_status
+         *
+         * @param $results
+         * @param $ignore_status
+         */
+        $processResults = function ($results, $ignore_status) {
+            $problems = '';
+
+            foreach ($results as $key => $result) {
+                if ($key == 'files' || $key == 'apache' || $key == 'execute') {
+                    foreach ($result as $key_text => $value_text) {
+                        foreach ($value_text as $status => $text) {
+                            if ($status == $ignore_status) continue;
+                            $problems .= $this->getListRow($status, '<b>' . $key_text . '</b> ' . $text);
+                        }
+                    }
+                } else {
+                    foreach ($result as $status => $text) {
+                        if ($status == $ignore_status) continue;
+                        $problems .= $this->getListRow($status, $text);
                     }
                 }
-            } else {
-                foreach ($result as $status => $text) {
-                    $problems .= $this->getListRow($status, $text);
-                }
             }
-        }
+
+            return $problems;
+        };
+
+        // First render the errors
+        $problems  = $processResults($this->results, 'success');
+
+        // Then render the successful checks
+        $problems .= $processResults($this->results, 'error');
 
         $html = str_replace('%%BASE_URL%%', $baseUrlRelative, $html);
         $html = str_replace('%%THEME_URL%%', $themeUrl, $html);
@@ -273,6 +292,24 @@ class ProblemsPlugin extends Plugin
         if (sizeof($file_problems) > 0) {
             $this->results['files'] = $file_problems;
         }
+
+        $compression_status = 'success';
+        $compression_message = 'No compression issues found';
+        // Check for compression
+        if (!function_exists('fastcgi_finish_request')) {
+            //not php-fpm
+            if (extension_loaded('zlib') && $this->grav['config']->get('system.cache.gzip')) {
+                $output_compression = ini_get("zlib.output_compression");
+                if ($output_compression === '1' || $output_compression === 'On') {
+                    $problems_found = true;
+                    $compression_status = 'error';
+                    $compression_message = 'Compression is enabled both in PHP and in Grav, and you\'re not running PHP-FPM. Please turn off the server-side gzip compression (mod_deflate)';
+                }
+            }
+        }
+
+        $this->results['compression'] = [$compression_status => $compression_message];
+
 
         return $problems_found;
     }
