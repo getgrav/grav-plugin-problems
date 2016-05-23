@@ -4,7 +4,7 @@
 
 `Problems` is a [Grav](http://github.com/getgrav/grav) Plugin and allows to detect issues.
 
-This plugin is required and you will find it in any package distributed that contains Grav. If you decide to clone Grav from GitHub, you will most likely want to install this.
+This plugin is inluded in any package distributed that contains Grav. If you decide to clone Grav from GitHub, you will most likely want to install this.
 
 # Installation
 
