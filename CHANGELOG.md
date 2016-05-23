@@ -1,3 +1,9 @@
+# v1.4.2
+## 05/23/2016
+
+1. [](#new)
+    * Check for compression issues
+
 # v1.4.1
 ## 05/03/2016
 
