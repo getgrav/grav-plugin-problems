@@ -1,3 +1,9 @@
+# v1.4.3
+## 05/27/2016
+
+1. [](#new)
+    * Reverted compression checks
+    
 # v1.4.2
 ## 05/23/2016
 
