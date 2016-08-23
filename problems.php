@@ -167,6 +167,15 @@ class ProblemsPlugin extends Plugin
             }
         }
 
+        if (version_compare(GRAV_VERSION, '1.1.4', ">=")) {
+            $essential_files['tmp'] = true;
+            $tmp_folder = ROOT_DIR . 'tmp';
+            // try to create tmp folder if missing
+            if (!file_exists($tmp_folder)) {
+                mkdir($tmp_folder, 0770);
+            }
+        }
+
         // Perform some Apache checks
         if (strpos(php_sapi_name(), 'apache') !== false) {
 

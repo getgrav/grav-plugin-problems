@@ -1,3 +1,9 @@
+# v1.4.4
+## XX/XX/2016
+
+1. [](#new)
+    * Added check for new root folder `tmp` and try to create if missing
+
 # v1.4.3
 ## 05/27/2016
 
