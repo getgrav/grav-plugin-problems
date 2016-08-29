@@ -268,6 +268,17 @@ class ProblemsPlugin extends Plugin
         }
         $this->results['mbstring'] = [$mbstring_status => 'PHP Mbstring (Multibyte String Library) is '. $mbstring_adjective . 'installed'];
 
+        // Check for PHP Zip library
+        if (extension_loaded('zip')) {
+            $zip_adjective = '';
+            $zip_status = 'success';
+        } else {
+            $problems_found = true;
+            $zip_adjective = 'not ';
+            $zip_status = 'error';
+        }
+        $this->results['zip'] = [$mbstring_status => 'PHP Zip extension is '. $mbstring_adjective . 'installed'];
+
         // Check for essential files & perms
         $file_problems = [];
         foreach ($essential_files as $file => $check_writable) {
