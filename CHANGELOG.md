@@ -3,6 +3,8 @@
 
 1. [](#new)
     * Added check for new root folder `tmp` and try to create if missing
+1. [](#bugfix)
+    * Fixed Whoops error if `backup` folder doesn't exist
 
 # v1.4.3
 ## 05/27/2016
