@@ -163,7 +163,16 @@ class ProblemsPlugin extends Plugin
             $backup_folder = ROOT_DIR . 'backup';
             // try to create backup folder if missing
             if (!file_exists($backup_folder)) {
-                mkdir($backup_folder, 0770);
+                @mkdir($backup_folder, 0770);
+            }
+        }
+
+        if (version_compare(GRAV_VERSION, '1.1.4', ">=")) {
+            $essential_files['tmp'] = true;
+            $tmp_folder = ROOT_DIR . 'tmp';
+            // try to create tmp folder if missing
+            if (!file_exists($tmp_folder)) {
+                @mkdir($tmp_folder, 0770);
             }
         }
 
@@ -258,6 +267,17 @@ class ProblemsPlugin extends Plugin
             $mbstring_status = 'error';
         }
         $this->results['mbstring'] = [$mbstring_status => 'PHP Mbstring (Multibyte String Library) is '. $mbstring_adjective . 'installed'];
+
+        // Check for PHP Zip library
+        if (extension_loaded('zip')) {
+            $zip_adjective = '';
+            $zip_status = 'success';
+        } else {
+            $problems_found = true;
+            $zip_adjective = 'not ';
+            $zip_status = 'error';
+        }
+        $this->results['zip'] = [$mbstring_status => 'PHP Zip extension is '. $mbstring_adjective . 'installed'];
 
         // Check for essential files & perms
         $file_problems = [];

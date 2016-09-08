@@ -1,3 +1,11 @@
+# v1.4.4
+## 09/08/2016
+
+1. [](#new)
+    * Added check for new root folder `tmp` and try to create if missing
+1. [](#bugfix)
+    * Fixed Whoops error if `backup` folder doesn't exist and cannot be created
+
 # v1.4.3
 ## 05/27/2016
 
