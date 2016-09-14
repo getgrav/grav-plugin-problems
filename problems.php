@@ -277,7 +277,7 @@ class ProblemsPlugin extends Plugin
             $zip_adjective = 'not ';
             $zip_status = 'error';
         }
-        $this->results['zip'] = [$mbstring_status => 'PHP Zip extension is '. $mbstring_adjective . 'installed'];
+        $this->results['zip'] = [$zip_status => 'PHP Zip extension is '. $zip_adjective . 'installed'];
 
         // Check for essential files & perms
         $file_problems = [];
