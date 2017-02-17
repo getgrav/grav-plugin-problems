@@ -118,6 +118,7 @@ class ProblemsPlugin extends Plugin
         $html = str_replace('%%PROBLEMS%%', $problems, $html);
 
         echo $html;
+        http_response_code(500);
 
         exit();
 
