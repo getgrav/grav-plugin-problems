@@ -269,6 +269,19 @@ class ProblemsPlugin extends Plugin
         }
         $this->results['mbstring'] = [$mbstring_status => 'PHP Mbstring (Multibyte String Library) is '. $mbstring_adjective . 'installed'];
 
+        // Check Exif if enabled
+        if ($this->grav['config']->get('system.media.auto_metadata_exif')) {
+            if(extension_loaded('exif')) {
+                $exif_adjective = '';
+                $exif_status = 'success';
+            } else {
+                $problems_found = true;
+                $exif_adjective = 'not ';
+                $exif_status = 'error';
+            }
+            $this->results['exif'] = [$exif_status => 'PHP Exif (Exchangeable Image File Format) is '. $exif_adjective . 'installed'];
+        }
+
         // Check for PHP Zip library
         if (extension_loaded('zip')) {
             $zip_adjective = '';
