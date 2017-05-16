@@ -1,3 +1,9 @@
+# v1.4.7
+## 05/16/2017
+
+1. [](#improved)
+    * Added check for Exif module if this feature is enabled
+
 # v1.4.6
 ## 02/17/2017
 
