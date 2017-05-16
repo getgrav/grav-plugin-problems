@@ -1,5 +1,5 @@
 # v1.4.7
-## xx/xx/2017
+## 05/16/2017
 
 1. [](#improved)
     * Added check for Exif module if this feature is enabled
