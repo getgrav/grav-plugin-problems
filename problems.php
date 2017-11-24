@@ -138,7 +138,14 @@ class ProblemsPlugin extends Plugin
         $output .= '<li class="' . $status . ' clearfix"><i class="fa fa-fw '. $icon . '"></i><p>'. $text . '</p></li>';
         return $output;
     }
+    
+    private function safe_extension_loaded($aExtName)
+    {
+      if(!isset($this->__php_extensions)) $this->__php_extensions = get_loaded_extensions();
 
+      return extension_loaded($aExtName) || in_array($aExtName, $this->__php_extensions);
+    }
+    
     protected function problemChecker()
     {
         $min_php_version = defined('GRAV_PHP_MIN') ? GRAV_PHP_MIN : '5.4.0';
@@ -213,85 +220,29 @@ class ProblemsPlugin extends Plugin
             $php_version_status = 'success';
         }
         $this->results['php'] = [$php_version_status => 'Your PHP version (' . phpversion() . ') is '. $php_version_adjective . ' than the minimum required: <b>' . $min_php_version . '</b>  - <a href="http://getgrav.org/blog/changing-php-requirements-to-5.5">Additional Information</a>'];
-
-        // Check for GD library
-        if (defined('GD_VERSION') && function_exists('gd_info')) {
-            $gd_adjective = '';
-            $gd_status = 'success';
-        } else {
-            $problems_found = true;
-            $gd_adjective = 'not ';
-            $gd_status = 'error';
+        /* BEGIN :: CHECK PHP EXTENSIONS 
+            note to local server on windows (like easyPHP, WAMP ...)
+            if you have curl or other extension loading problem (not loaded)
+            you just have to add path root of your current PHP installation
+            (ex: C:\myServer\binaries\php-7.1.12-Win32-VC14-x86)
+            in windows path environment variable and restart computer.
+            /!\ DO NOT COPY PHP DLL INTO WINDOWS SYSTEM'S FOLDERS (System, System32, SysWOW64)
+        */
+        $php_extensions = [
+          [ 'n'=>'gd',        't'=>'GD (Image Manipulation Library)',           'l'=>$this->safe_extension_loaded('gd') ],
+          [ 'n'=>'curl',      't'=>'cURL (Data Transfer Library)',              'l'=>$this->safe_extension_loaded('curl') ],
+          [ 'n'=>'openssl',   't'=>'openSSL (Secure Socket Library)',           'l'=>$this->safe_extension_loaded('openssl') ],
+          [ 'n'=>'xml',       't'=>'XML (eXtensible Markup Language Library)',  'l'=>$this->safe_extension_loaded('xml') ],
+          [ 'n'=>'mbstring',  't'=>'MBString (Multibyte String Library)',       'l'=>$this->safe_extension_loaded('mbstring') ],
+          [ 'n'=>'exif',      't'=>'Exif (Exchangeable Image File Format)',     'l'=>$this->safe_extension_loaded('exif') || !$this->grav['config']->get('system.media.auto_metadata_exif') ],
+          [ 'n'=>'zip',       't'=>'Zip (Data Compression Library)',            'l'=>$this->safe_extension_loaded('zip') ],
+        ];
+        foreach( $php_extensions as  $e )
+        {
+          $problems_found |= !$e['l'];
+          $this->results[ $e['n'] ] = [ ($e['l']?'success':'error') => sprintf('PHP %s is %s', $e['t'], $e['l']?'installed':'not installed') ];
         }
-        $this->results['gd'] = [$gd_status => 'PHP GD (Image Manipulation Library) is '. $gd_adjective . 'installed'];
-
-        // Check for PHP CURL library
-        if (function_exists('curl_version')) {
-            $curl_adjective = '';
-            $curl_status = 'success';
-        } else {
-            $problems_found = true;
-            $curl_adjective = 'not ';
-            $curl_status = 'error';
-        }
-        $this->results['curl'] = [$curl_status => 'PHP Curl (Data Transfer Library) is '. $curl_adjective . 'installed'];
-
-        // Check for PHP Open SSL library
-        if (extension_loaded('openssl') && defined('OPENSSL_VERSION_TEXT')) {
-            $ssl_adjective = '';
-            $ssl_status = 'success';
-        } else {
-            $problems_found = true;
-            $ssl_adjective = 'not ';
-            $ssl_status = 'error';
-        }
-        $this->results['ssl'] = [$ssl_status => 'PHP OpenSSL (Secure Sockets Library) is '. $ssl_adjective . 'installed'];
-
-        // Check for PHP XML library
-        if (extension_loaded('xml')) {
-            $xml_adjective = '';
-            $xml_status = 'success';
-        } else {
-            $problems_found = true;
-            $xml_adjective = 'not ';
-            $xml_status = 'error';
-        }
-        $this->results['xml'] = [$xml_status => 'PHP XML Library is '. $xml_adjective . 'installed'];
-
-        // Check for PHP MbString library
-        if (extension_loaded('mbstring')) {
-            $mbstring_adjective = '';
-            $mbstring_status = 'success';
-        } else {
-            $problems_found = true;
-            $mbstring_adjective = 'not ';
-            $mbstring_status = 'error';
-        }
-        $this->results['mbstring'] = [$mbstring_status => 'PHP Mbstring (Multibyte String Library) is '. $mbstring_adjective . 'installed'];
-
-        // Check Exif if enabled
-        if ($this->grav['config']->get('system.media.auto_metadata_exif')) {
-            if(extension_loaded('exif')) {
-                $exif_adjective = '';
-                $exif_status = 'success';
-            } else {
-                $problems_found = true;
-                $exif_adjective = 'not ';
-                $exif_status = 'error';
-            }
-            $this->results['exif'] = [$exif_status => 'PHP Exif (Exchangeable Image File Format) is '. $exif_adjective . 'installed'];
-        }
-
-        // Check for PHP Zip library
-        if (extension_loaded('zip')) {
-            $zip_adjective = '';
-            $zip_status = 'success';
-        } else {
-            $problems_found = true;
-            $zip_adjective = 'not ';
-            $zip_status = 'error';
-        }
-        $this->results['zip'] = [$zip_status => 'PHP Zip extension is '. $zip_adjective . 'installed'];
+        /* END :: CHECK PHP EXTENSIONS */
 
         // Check for essential files & perms
         $file_problems = [];
