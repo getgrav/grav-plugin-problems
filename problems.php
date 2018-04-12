@@ -212,7 +212,7 @@ class ProblemsPlugin extends Plugin
             $php_version_adjective = 'greater';
             $php_version_status = 'success';
         }
-        $this->results['php'] = [$php_version_status => 'Your PHP version (' . phpversion() . ') is '. $php_version_adjective . ' than the minimum required: <b>' . $min_php_version . '</b>  - <a href="http://getgrav.org/blog/changing-php-requirements-to-5.5">Additional Information</a>'];
+        $this->results['php'] = [$php_version_status => 'Your PHP version (' . phpversion() . ') is '. $php_version_adjective . ' than the minimum required: <b>' . $min_php_version . '</b>  - <a href="https://getgrav.org/blog/raising-php-requirements-2018">Additional Information</a>'];
 
         // Check for GD library
         if (defined('GD_VERSION') && function_exists('gd_info')) {
