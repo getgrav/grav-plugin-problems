@@ -216,8 +216,19 @@ class ProblemsPlugin extends Plugin
 
         // Check for GD library
         if (defined('GD_VERSION') && function_exists('gd_info')) {
-            $gd_adjective = '';
-            $gd_status = 'success';
+            $ginfo = gd_info();
+            $gda = array("PNG Support", "JPEG Support", "FreeType Support", "GIF Read Support");
+            foreach ($gda as $image_type) {
+                if ($ginfo[$image_type]) {
+                    $gd_adjective = '';
+                    $gd_status = 'success';
+                } else {
+                    $problems_found = true;
+                    $gd_adjective = "missing $image_type, but is ";
+                    $gd_status = 'warning';
+                    break;
+                }
+            }
         } else {
             $problems_found = true;
             $gd_adjective = 'not ';
