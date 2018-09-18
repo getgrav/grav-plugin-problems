@@ -29,11 +29,19 @@
                 {% if problem.details is iterable %}
                   <ul class="details">
                   {% for key,value in problem.details.errors %}
-                    <li class="error"><i class="icon icon-cross"></i> <strong>{{ key }}</strong> - {{ value }}</li>
+                    <li class="label label-secondary error">
+                      <button class="btn btn-error btn-action btn-sm"><i class="icon icon-cross"></i></button>
+
+                      <strong>{{ key }}</strong> - {{ value }}
+                    </li>
                   {% endfor %}
 
                   {% for key,value in problem.details.success %}
-                    <li class="success"><i class="icon icon-check"></i> <strong>{{ key }}</strong> - {{ value }}</li>
+                    <li class="label label-default success">
+                      <button class="btn btn-primary btn-action btn-sm"><i class="icon icon-check"></i></button>
+
+                      <strong>{{ key }}</strong> - {{ value }}
+                    </li>
                   {% endfor %}
                   </ul>
                 {% endif %}

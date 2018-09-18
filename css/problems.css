@@ -15,11 +15,30 @@ ul.problems h5 {
 }
 
 ul.details {
-    margin: 0.5rem 1rem;
+    margin: 0.5rem;
     list-style: none;
     font-size: 90%;
 }
 
+ul.details .btn-action {
+    margin-right: 0.5rem;
+}
+
+ul.details li {
+    margin-top: 1px;
+    width: 100%;
+}
+
+ul.details .error {
+    background: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,1);
+}
+
 ul.details .success {
-    color: rgba(255,255,255, 0.5);
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+}
+
+ul.details .success .btn-action {
+    opacity: 0.7;
 }

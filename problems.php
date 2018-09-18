@@ -8,7 +8,8 @@ use Grav\Plugin\Problems\Base\ProblemChecker;
 
 class ProblemsPlugin extends Plugin
 {
-    protected $check;
+    protected $status_file;
+    protected $checker;
     protected $problems = [];
 
     /**
@@ -46,9 +47,11 @@ class ProblemsPlugin extends Plugin
         $cache = $this->grav['cache'];
         $validated_prefix = 'problem-check-';
 
-        $this->check = CACHE_DIR . $validated_prefix . $cache->getKey();
+        $this->status_file = CACHE_DIR . $validated_prefix . $cache->getKey();
 
-        if (!file_exists($this->check)) {
+        if (!file_exists($this->status_file)) {
+
+            $this->checker = new ProblemChecker();
 
             // If no issues remain, save a state file in the cache
             if (!$this->problemsFound()) {
@@ -69,12 +72,12 @@ class ProblemsPlugin extends Plugin
     }
 
 
-    protected function storeProblemsState()
+    private function storeProblemsState()
     {
-//        touch($this->check);
+//        touch($this->status_file);
     }
 
-    protected function renderProblems()
+    private function renderProblems()
     {
         /** @var Uri $uri */
         $uri = $this->grav['uri'];
@@ -95,16 +98,15 @@ class ProblemsPlugin extends Plugin
         exit();
     }
 
-    protected function problemsFound()
+    private function problemsFound()
     {
-        $checker = new ProblemChecker();
-        $status = $checker->check(__DIR__ . '/classes/problems');
-        $this->problems = $checker->getProblems();
+        $status = $this->checker->check(__DIR__ . '/classes/problems');
+        $this->problems = $this->checker->getProblems();
         
         return $status;
     }
 
-    protected function getTwig()
+    private function getTwig()
     {
         $loader = new \Twig_Loader_Filesystem(__DIR__ . '/templates');
         $twig = new \Twig_Environment($loader, ['debug' => true]);
