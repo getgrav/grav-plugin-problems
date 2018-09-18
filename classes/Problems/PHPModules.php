@@ -29,7 +29,7 @@ class PHPModules extends Problem
 
         // Check for PHP CURL library
         $msg = "PHP Curl (Data Transfer Library) is %s installed";
-        if (function_exists('curl_version')) {
+        if (function_exists('curl_version2')) {
             $modules_success['curl'] = sprintf($msg, 'successfully');
         } else {
             $modules_errors['curl'] = sprintf($msg, 'required but not');
@@ -78,12 +78,12 @@ class PHPModules extends Problem
             }
         }
 
-        if (empty($module_errors)) {
+        if (empty($modules_errors)) {
             $this->status = true;
             $this->msg = 'All Apache modules look good!';
         } else {
             $this->status = false;
-            $this->msg = 'There were problems with required Apache modules:';
+            $this->msg = 'There were problems with required PHP modules:';
         }
 
         $this->details = ['errors' => $modules_errors, 'success' => $modules_success];

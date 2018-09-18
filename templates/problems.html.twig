@@ -1,34 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Grav Problems</title>
-  <meta name="description" content="Grav is an easy to use, yet powerful, open source flat-file CMS">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ problems_url }}/css/spectre.min.css" type="text/css" />
-  <link rel="stylesheet" href="{{ problems_url }}/css/spectre-icons.min.css" type="text/css" />
-  <link rel="stylesheet" href="{{ problems_url }}/css/problems.css" type="text/css" />
-</head>
-<body id="top" class="">
-<div id="container">
-  <section id="body" class="">
-    <h1>Issues Found</h1>
-    <h2>Please <strong>Review</strong> and <strong>Resolve</strong> before continuing...</h2>
+  <head>
+    <meta charset="utf-8" />
+    <title>Grav Problems</title>
+    <meta name="description" content="Grav is an easy to use, yet powerful, open source flat-file CMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ problems_url }}/css/spectre.min.css" type="text/css" />
+    <link rel="stylesheet" href="{{ problems_url }}/css/spectre-icons.min.css" type="text/css" />
+    <link rel="stylesheet" href="{{ problems_url }}/css/problems.css" type="text/css" />
+  </head>
+  <body>
+    <div class="container grid-lg">
+      <div class="columns">
+        <div class="column">
 
-    <p class="center">
-      <a href="{{ base_url }}" class="btn btn-error"><i class="icon icon-refresh"></i> Reload Page</a>
-    </p>
+          <div class="text-center">
+            <h1>Grav Problems</h1>
+            <h4>Please <strong>Review</strong> and <strong>Resolve</strong> before continuing...</h4>
+            <p>
+              <a href="{{ base_url }}" class="btn btn-primary"><i class="icon icon-refresh"></i> Reload Page</a>
+            </p>
+          </div>
 
-    <ul class="problems">
-      {{ dump(problems) }}
-      {% for type in problems %}
-        {#{% for msg in type %} %}#}
-          {#<li class="{{ type }}">{{ msg }}</li>#}
-        {#{% endfor %}#}
-      {% endfor %}
-    </ul>
+          <ul class="problems">
+            {% for problem in problems %}
+              <li class="toast toast-{{ problem.status ? 'success' : 'error'  }}">
+                <h5>{{ problem.msg|raw }}</h5>
+                {% if problem.details is iterable %}
+                  <ul class="details">
+                  {% for key,value in problem.details.errors %}
+                    <li class="error"><i class="icon icon-cross"></i> <strong>{{ key }}</strong> - {{ value }}</li>
+                  {% endfor %}
 
-  </section>
-</div>
-</body>
+                  {% for key,value in problem.details.success %}
+                    <li class="success"><i class="icon icon-check"></i> <strong>{{ key }}</strong> - {{ value }}</li>
+                  {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+
+              {#{% for msg in type %} %}#}
+                {#<li class="{{ type }}">{{ msg }}</li>#}
+              {#{% endfor %}#}
+            {% endfor %}
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </body>
 </html>

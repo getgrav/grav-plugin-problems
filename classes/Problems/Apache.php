@@ -37,7 +37,7 @@ class Apache extends Problem
                 $this->msg = 'All folders look good!';
             } else {
                 $this->status = false;
-                $this->msg = 'There were problems with required folders:';
+                $this->msg = 'There were problems with required Apache modules:';
             }
 
             $this->details = ['errors' => $apache_errors, 'success' => $apache_success];

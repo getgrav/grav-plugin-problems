@@ -43,12 +43,12 @@ class ProblemChecker
 
         $problems = $this->problems;
 
+        // Put the failed ones first
         usort($problems, function($a, $b) {
             return $a->getStatus() - $b->getStatus();
         });
 
         return $problems;
-
     }
 
 }
