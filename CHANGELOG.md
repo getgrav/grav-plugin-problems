@@ -9,7 +9,9 @@
     * Storage of problem state to allow for displaying in admin plugin
     * Now with 3 states `critical`, `warning`, and `notice`.  Only critical will stop the site working.
     * Added some new PHP module checks
-    * Added a new umask permission check
+    * Added a new `umask` permission check
+1. [](#improved)
+    * Implemented extra image checks [#17](https://github.com/getgrav/grav-plugin-problems/pull/17)
 
 # v1.4.7
 ## 05/16/2017
