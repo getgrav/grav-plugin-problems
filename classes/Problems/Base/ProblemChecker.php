@@ -77,7 +77,7 @@ class ProblemChecker
         // run the process methods in new order
         foreach ($problems as $problem) {
             $problem->process();
-            if ($problem->getStatus() === false) {
+            if ($problem->getStatus() === false && $problem->getLevel() === Problem::LEVEL_CRITICAL) {
                 $problems_found = true;
             }
         }

@@ -20,7 +20,7 @@ class Apache extends Problem
         // Perform some Apache checks
         if (strpos(php_sapi_name(), 'apache') !== false) {
 
-            $require_apache_modules = ['mod_rewrite'];
+            $require_apache_modules = ['mod_rewrite2'];
             $apache_modules = apache_get_modules();
 
             $apache_errors = [];

@@ -9,7 +9,7 @@ class Permissions extends Problem
     {
         $this->id = 'Permissions Setup';
         $this->class = get_class($this);
-        $this->order = 99;
+        $this->order = -1;
         $this->level = Problem::LEVEL_WARNING;
         $this->status = false;
         $this->help = 'https://learn.getgrav.org/troubleshooting/permissions';
@@ -21,7 +21,7 @@ class Permissions extends Problem
 
         $msg = "Your default file umask is <strong>%s</strong> which %s";
 
-        if (($umask & 2) !== 2) {
+        if (($umask & 2) !== 3) {
             $this->msg = sprintf($msg, decoct($umask), 'is potentially dangerous');
             $this->status = false;
         } else {
