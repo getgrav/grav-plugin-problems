@@ -21,7 +21,7 @@ class Permissions extends Problem
 
         $msg = "Your default file umask is <strong>%s</strong> which %s";
 
-        if (($umask & 2) !== 3) {
+        if (($umask & 2) !== 2) {
             $this->msg = sprintf($msg, decoct($umask), 'is potentially dangerous');
             $this->status = false;
         } else {
