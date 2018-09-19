@@ -7,40 +7,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ problems_url }}/css/spectre.min.css" type="text/css" />
     <link rel="stylesheet" href="{{ problems_url }}/css/spectre-icons.min.css" type="text/css" />
-    <link rel="stylesheet" href="{{ problems_url }}/css/problems.css" type="text/css" />
   </head>
   <body>
-    <div class="container grid-lg">
+    <div class="container grid-md">
       <div class="columns">
         <div class="column">
 
           <div class="text-center">
-            <h1>Grav Problems</h1>
-            <h4>Please <strong>Review</strong> and <strong>Resolve</strong> before continuing...</h4>
+            <img class="logo" src="{{ problems_url }}/assets/grav-logo.svg" />
+
             <p>
-              <a href="{{ base_url }}" class="btn btn-primary"><i class="icon icon-refresh"></i> Reload Page</a>
+
+            </p>
+
+            <p class="reload toast toast-primary">
+              Please <strong>Review</strong> and <strong>Resolve</strong> before continuing <a href="{{ base_url }}" class="btn btn-primary"><i class="icon icon-refresh"></i> Reload Page</a>
             </p>
           </div>
 
           <ul class="problems">
             {% for problem in problems %}
-              <li class="toast toast-{{ problem.status ? 'success' : 'error'  }}">
-                <h5>{{ problem.msg|raw }}</h5>
+              <li class="menu">
+                <div class="toast toast-{{ problem.status ? 'success' : 'error'  }}">{{ problem.msg|raw }}</div>
                 {% if problem.details is iterable %}
                   <ul class="details">
                   {% for key,value in problem.details.errors %}
-                    <li class="label label-secondary error">
-                      <button class="btn btn-error btn-action btn-sm"><i class="icon icon-cross"></i></button>
-
-                      <strong>{{ key }}</strong> - {{ value }}
+                    <li class="menu-item">
+                      <div class="menu-badge">
+                        <label class="label label-error"><i class="icon icon-cross"></i></label>
+                      </div>
+                      <span class="active"><code>{{ key }}</code> - {{ value }}</span>
                     </li>
                   {% endfor %}
 
                   {% for key,value in problem.details.success %}
-                    <li class="label label-default success">
-                      <button class="btn btn-primary btn-action btn-sm"><i class="icon icon-check"></i></button>
-
-                      <strong>{{ key }}</strong> - {{ value }}
+                    <li class="menu-item">
+                      <div class="menu-badge">
+                        <label class="label label-success"><i class="icon icon-check"></i></label>
+                      </div>
+                      <span class=""><code>{{ key }}</code> - {{ value }}</span>
                     </li>
                   {% endfor %}
                   </ul>
