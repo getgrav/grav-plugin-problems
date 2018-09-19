@@ -74,7 +74,9 @@ class ProblemsPlugin extends Plugin
 
     private function storeProblemsState()
     {
-//        touch($this->status_file);
+        $problems = $this->problems;
+        $json = json_encode($problems);
+        file_put_contents($this->status_file, $json);
     }
 
     private function renderProblems()

@@ -1,7 +1,7 @@
 <?php
 namespace Grav\Plugin\Problems\Base;
 
-class Problem
+class Problem implements \JsonSerializable
 {
     const LEVEL_CRITICAL = 'critical';
     const LEVEL_WARNING = 'warning';
@@ -47,5 +47,15 @@ class Problem
     public function getHelp()
     {
         return $this->help;
+    }
+
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
+
+    public function jsonSerialize()
+    {
+        $this->toArray();
     }
 }

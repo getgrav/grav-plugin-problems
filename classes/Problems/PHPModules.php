@@ -22,7 +22,7 @@ class PHPModules extends Problem
 
         // Check for PHP CURL library
         $msg = "PHP Curl (Data Transfer Library) is %s installed";
-        if (function_exists('curl_version2')) {
+        if (function_exists('curl_version')) {
             $modules_success['curl'] = sprintf($msg, 'successfully');
         } else {
             $modules_errors['curl'] = sprintf($msg, 'required but not');
