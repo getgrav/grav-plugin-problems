@@ -43,8 +43,6 @@ class ProblemsPlugin extends Plugin
         require __DIR__ . '/vendor/autoload.php';
         $this->checker = new ProblemChecker();
 
-        $this->checker->load();
-
         if (!$this->checker->statusFileExists()) {
             // If no issues remain, save a state file in the cache
             if (!$this->problemsFound()) {
