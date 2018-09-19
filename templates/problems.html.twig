@@ -16,10 +16,6 @@
           <div class="text-center">
             <img class="logo" src="{{ problems_url }}/assets/grav-logo.svg" />
 
-            <p>
-
-            </p>
-
             <p class="reload toast toast-primary">
               Please <strong>Review</strong> and <strong>Resolve</strong> before continuing <a href="{{ base_url }}" class="btn btn-primary"><i class="icon icon-refresh"></i> Reload Page</a>
             </p>
@@ -29,6 +25,7 @@
             {% for problem in problems %}
               <li class="menu">
                 <div class="toast toast-{{ problem.status ? 'success' : 'error'  }}">
+                  <strong>{{ problem.id }}:</strong>
                   {{ problem.msg|raw }}
                   {% if problem.help %}<a href="{{ problem.help }}" class="btn btn-sm btn-{{ problem.status ? 'success' : 'error'  }}" target="_blank"><i class="icon icon-bookmark"></i> Help</a>{% endif %}
                 </div>

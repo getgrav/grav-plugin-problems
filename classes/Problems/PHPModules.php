@@ -97,10 +97,10 @@ class PHPModules extends Problem
 
         if (empty($modules_errors)) {
             $this->status = true;
-            $this->msg = 'All Apache modules look good!';
+            $this->msg = 'All modules look good!';
         } else {
             $this->status = false;
-            $this->msg = 'There were problems with required PHP modules:';
+            $this->msg = 'There were problems with required modules:';
         }
 
         $this->details = ['errors' => $modules_errors, 'success' => $modules_success];

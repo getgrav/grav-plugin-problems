@@ -7,7 +7,7 @@ class Apache extends Problem
 {
     public function __construct()
     {
-        $this->id = 'Apache Configuration';
+        $this->id = 'Apache Modules';
         $this->class = get_class($this);
         $this->order = 1;
         $this->level = Problem::LEVEL_CRITICAL;
@@ -28,9 +28,9 @@ class Apache extends Problem
 
             foreach ($require_apache_modules as $module) {
                 if (in_array($module, $apache_modules)) {
-                    $apache_success[$module] = 'Apache module required but not enabled';
+                    $apache_success[$module] = 'module required but not enabled';
                 } else {
-                    $apache_errors[$module] = 'Apache module is not installed or enabled';
+                    $apache_errors[$module] = 'module is not installed or enabled';
                 }
             }
 
@@ -39,7 +39,7 @@ class Apache extends Problem
                 $this->msg = 'All folders look good!';
             } else {
                 $this->status = false;
-                $this->msg = 'There were problems with required Apache modules:';
+                $this->msg = 'There were problems with required modules:';
             }
 
             $this->details = ['errors' => $apache_errors, 'success' => $apache_success];

@@ -60,12 +60,15 @@ class ProblemChecker
                 continue;
             }
             $classname = 'Grav\\Plugin\\Problems\\' . $file->getBasename('.php');
+            /** @var Problem $problem */
             $problem = new $classname();
-            $problems[$problem->getOrder()] = $problem;
+            $problems[$problem->getId()] = $problem;
         }
 
         // Get the problems in order
-        krsort($problems);
+        usort($problems, function($a, $b) {
+            return $b->getOrder() - $a->getOrder();
+        });
 
         // run the process methods in new order
         foreach ($problems as $problem) {
