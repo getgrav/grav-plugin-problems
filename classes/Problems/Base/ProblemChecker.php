@@ -3,6 +3,7 @@ namespace Grav\Plugin\Problems\Base;
 
 use Grav\Common\Cache;
 use Grav\Common\Grav;
+use RocketTheme\Toolbox\Event\Event;
 
 class ProblemChecker
 {
@@ -64,6 +65,9 @@ class ProblemChecker
             $problem = new $classname();
             $problems[$problem->getId()] = $problem;
         }
+
+        // Fire event to allow other plugins to add problems
+        Grav::instance()->fireEvent('onProblemsInitialized', new Event(['problems' => $problems]));
 
         // Get the problems in order
         usort($problems, function($a, $b) {
