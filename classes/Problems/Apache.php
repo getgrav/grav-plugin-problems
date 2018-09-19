@@ -8,6 +8,7 @@ class Apache extends Problem
     public function __construct()
     {
         $this->id = 'Apache Configuration';
+        $this->class = get_class($this);
         $this->order = 1;
         $this->level = Problem::LEVEL_CRITICAL;
         $this->status = true;

@@ -8,6 +8,7 @@ class EssentialFolders extends Problem
     public function __construct()
     {
         $this->id = 'Essential Folders';
+        $this->class = get_class($this);
         $this->order = 100;
         $this->level = Problem::LEVEL_CRITICAL;
         $this->status = false;

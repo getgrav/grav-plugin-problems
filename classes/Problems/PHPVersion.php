@@ -8,6 +8,7 @@ class PHPVersion extends Problem
     public function __construct()
     {
         $this->id = 'PHP Minimum Version';
+        $this->class = get_class($this);
         $this->order = 102;
         $this->level = Problem::LEVEL_CRITICAL;
         $this->status = false;

@@ -1,9 +1,54 @@
 <?php
 namespace Grav\Plugin\Problems\Base;
 
+use Grav\Common\Cache;
+use Grav\Common\Grav;
+
 class ProblemChecker
 {
+    const PROBLEMS_PREFIX = 'problem-check-';
+
     protected $problems = [];
+    protected $status_file;
+
+
+    public function __construct()
+    {
+        /** @var Cache $cache */
+        $cache = Grav::instance()['cache'];
+        $this->status_file = CACHE_DIR . $this::PROBLEMS_PREFIX . $cache->getKey() . '.json';
+    }
+
+    public function load()
+    {
+        if ($this->statusFileExists()) {
+            $json = file_get_contents($this->status_file);
+            $data = json_decode($json, true);
+
+            foreach ($data as $problem) {
+                $class = $problem['class'];
+                $this->problems[] = new $class($problem);
+            }
+        }
+    }
+
+    public function getStatusFile()
+    {
+        return $this->status_file;
+    }
+
+    public function statusFileExists()
+    {
+        return file_exists($this->status_file);
+    }
+
+
+    public function storeStatusFile()
+    {
+        $problems = $this->getProblemsSerializable();
+        $json = json_encode($problems);
+        file_put_contents($this->status_file, $json);
+    }
 
     public function check($problems_dir)
     {
@@ -48,6 +93,19 @@ class ProblemChecker
             return $a->getStatus() - $b->getStatus();
         });
 
+        return $problems;
+    }
+
+    public function getProblemsSerializable()
+    {
+        if (empty($this->problems)) {
+            $this->getProblems();
+        }
+
+        $problems = [];
+        foreach ($this->problems as $problem) {
+            $problems[] = $problem->toArray();
+        }
         return $problems;
     }
 

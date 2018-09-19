@@ -9,6 +9,7 @@ class PHPModules extends Problem
     public function __construct()
     {
         $this->id = 'PHP Modules';
+        $this->class = get_class($this);
         $this->order = 101;
         $this->level = Problem::LEVEL_CRITICAL;
         $this->status = false;

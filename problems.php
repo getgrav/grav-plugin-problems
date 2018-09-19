@@ -1,14 +1,13 @@
 <?php
 namespace Grav\Plugin;
 
-use Grav\Common\Cache;
+
 use Grav\Common\Plugin;
 use Grav\Common\Uri;
 use Grav\Plugin\Problems\Base\ProblemChecker;
 
 class ProblemsPlugin extends Plugin
 {
-    protected $status_file;
     protected $checker;
     protected $problems = [];
 
@@ -42,41 +41,23 @@ class ProblemsPlugin extends Plugin
         }
 
         require __DIR__ . '/vendor/autoload.php';
+        $this->checker = new ProblemChecker();
 
-        /** @var Cache $cache */
-        $cache = $this->grav['cache'];
-        $validated_prefix = 'problem-check-';
+        $this->checker->load();
 
-        $this->status_file = CACHE_DIR . $validated_prefix . $cache->getKey();
-
-        if (!file_exists($this->status_file)) {
-
-            $this->checker = new ProblemChecker();
-
+        if (!$this->checker->statusFileExists()) {
             // If no issues remain, save a state file in the cache
             if (!$this->problemsFound()) {
-
                 // delete any existing validated files
-                foreach (new \GlobIterator(CACHE_DIR . $validated_prefix . '*') as $fileInfo) {
+                foreach (new \GlobIterator(CACHE_DIR . ProblemChecker::PROBLEMS_PREFIX . '*') as $fileInfo) {
                     @unlink($fileInfo->getPathname());
                 }
-
                 // create a file in the cache dir so it only runs on cache changes
-                $this->storeProblemsState();
-
+                $this->checker->storeStatusFile();
             } else {
                 $this->renderProblems();
             }
-
         }
-    }
-
-
-    private function storeProblemsState()
-    {
-        $problems = $this->problems;
-        $json = json_encode($problems);
-        file_put_contents($this->status_file, $json);
     }
 
     private function renderProblems()
@@ -93,9 +74,7 @@ class ProblemsPlugin extends Plugin
             'problems_url' => $baseUrlRelative . '/user/plugins/problems',
         ];
 
-        $html = $twig->render('problems.html.twig', $data);
-
-        echo $html;
+        echo $twig->render('problems.html.twig', $data);
         http_response_code(500);
         exit();
     }
@@ -113,6 +92,7 @@ class ProblemsPlugin extends Plugin
         $loader = new \Twig_Loader_Filesystem(__DIR__ . '/templates');
         $twig = new \Twig_Environment($loader, ['debug' => true]);
         $twig->addExtension(New \Twig_Extension_Debug());
+
         return $twig;
     }
 }

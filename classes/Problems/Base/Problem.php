@@ -14,6 +14,18 @@ class Problem implements \JsonSerializable
     protected $msg;
     protected $details;
     protected $help;
+    protected $class;
+
+    public function __contstruct($data = null)
+    {
+        if (!is_null($data)) {
+           $this->load($data);
+        }
+    }
+
+    public function load($data) {
+        $this->set_object_vars($data);
+    }
     
     public function process() {
         return $this;
@@ -49,6 +61,11 @@ class Problem implements \JsonSerializable
         return $this->help;
     }
 
+    public function getClass()
+    {
+        return $this->class;
+    }
+
     public function toArray()
     {
         return get_object_vars($this);
@@ -57,5 +74,12 @@ class Problem implements \JsonSerializable
     public function jsonSerialize()
     {
         $this->toArray();
+    }
+
+    protected function set_object_vars($object, array $vars) {
+        $has = get_object_vars($object);
+        foreach ($has as $name => $oldValue) {
+            $object->$name = isset($vars[$name]) ? $vars[$name] : NULL;
+        }
     }
 }
