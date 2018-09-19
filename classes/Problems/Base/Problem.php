@@ -13,6 +13,7 @@ class Problem
     protected $status;
     protected $msg;
     protected $details;
+    protected $help;
     
     public function process() {
         return $this;
@@ -41,5 +42,10 @@ class Problem
     public function getDetails()
     {
         return $this->details;
+    }
+
+    public function getHelp()
+    {
+        return $this->help;
     }
 }

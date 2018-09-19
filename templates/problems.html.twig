@@ -28,7 +28,10 @@
           <ul class="problems">
             {% for problem in problems %}
               <li class="menu">
-                <div class="toast toast-{{ problem.status ? 'success' : 'error'  }}">{{ problem.msg|raw }}</div>
+                <div class="toast toast-{{ problem.status ? 'success' : 'error'  }}">
+                  {{ problem.msg|raw }}
+                  {% if problem.help %}<a href="{{ problem.help }}" class="btn btn-sm btn-{{ problem.status ? 'success' : 'error'  }}" target="_blank"><i class="icon icon-bookmark"></i> Help</a>{% endif %}
+                </div>
                 {% if problem.details is iterable %}
                   <ul class="details">
                   {% for key,value in problem.details.errors %}

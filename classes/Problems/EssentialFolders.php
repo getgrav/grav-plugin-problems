@@ -11,6 +11,7 @@ class EssentialFolders extends Problem
         $this->order = 100;
         $this->level = Problem::LEVEL_CRITICAL;
         $this->status = false;
+        $this->help = 'https://learn.getgrav.org/basics/folder-structure';
     }
 
     public function process()

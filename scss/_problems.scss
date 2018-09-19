@@ -10,7 +10,7 @@ h1, h2 {
   font-weight: 700;
 }
 
-p.reload {
+.toast {
   .btn {
     margin-left: 1rem;
     text-decoration: none !important;
@@ -29,6 +29,13 @@ ul.problems {
 
   li.menu {
     margin-bottom: 1rem;
+
+    .toast {
+      .btn {
+        float: right;
+        margin-top: -2px;
+      }
+    }
   }
 }
 
@@ -41,6 +48,8 @@ ul.details {
     margin-top: .5rem !important;
     border-top: 1px solid $border-color;
     padding-top: 0.5rem;
+
+
 
     &:first-child {
       border: none;

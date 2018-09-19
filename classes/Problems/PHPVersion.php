@@ -11,6 +11,7 @@ class PHPVersion extends Problem
         $this->order = 102;
         $this->level = Problem::LEVEL_CRITICAL;
         $this->status = false;
+        $this->help = 'https://getgrav.org/blog/raising-php-requirements-2018';
     }
 
     public function process()
@@ -18,7 +19,7 @@ class PHPVersion extends Problem
         $min_php_version = defined('GRAV_PHP_MIN') ? GRAV_PHP_MIN : '5.6.4';
         $your_php_version = phpversion();
 
-        $msg = "Your PHP version <strong>%s</strong> is %s than the minimum required: <strong>%s</strong> - <a href=\"https://getgrav.org/blog/raising-php-requirements-2018\">Additional Information</a>";
+        $msg = "Your PHP version <strong>%s</strong> is %s than the minimum required: <strong>%s</strong>";
 
         // Check PHP version
         if (version_compare($your_php_version, $min_php_version, '<')) {

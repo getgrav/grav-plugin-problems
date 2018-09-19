@@ -11,6 +11,7 @@ class Apache extends Problem
         $this->order = 1;
         $this->level = Problem::LEVEL_CRITICAL;
         $this->status = true;
+        $this->help = 'https://learn.getgrav.org/basics/requirements#apache-requirements';
     }
 
     public function process()
