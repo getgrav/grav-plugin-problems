@@ -51,7 +51,7 @@ class ProblemsPlugin extends Plugin
                     @unlink($fileInfo->getPathname());
                 }
                 // create a file in the cache dir so it only runs on cache changes
-//                $this->checker->storeStatusFile();
+                $this->checker->storeStatusFile();
             } else {
                 $this->renderProblems();
             }
