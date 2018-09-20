@@ -18,15 +18,15 @@ class Apache extends Problem
     public function process()
     {
         // Perform some Apache checks
-        if (strpos(php_sapi_name(), 'apache') !== false) {
+        if (strpos(php_sapi_name(), 'apache') !== false && function_exists('apache_get_modules')) {
 
             $require_apache_modules = ['mod_rewrite'];
-            $apache_modules = apache_get_modules();
+            $apache_modules = @apache_get_modules();
 
             $apache_errors = [];
             $apache_success = [];
 
-            foreach ($require_apache_modules as $module) {
+            foreach ((array) $require_apache_modules as $module) {
                 if (in_array($module, $apache_modules)) {
                     $apache_success[$module] = 'module required but not enabled';
                 } else {
