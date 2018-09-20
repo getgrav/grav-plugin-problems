@@ -79,7 +79,7 @@ class ProblemsPlugin extends Plugin
 
     private function problemsFound()
     {
-        $status = $this->checker->check(__DIR__ . '/classes/problems');
+        $status = $this->checker->check(__DIR__ . '/classes/Problems');
         $this->problems = $this->checker->getProblems();
         
         return $status;
