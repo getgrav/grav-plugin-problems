@@ -21,7 +21,7 @@ class Apache extends Problem
         if (strpos(php_sapi_name(), 'apache') !== false && function_exists('apache_get_modules')) {
 
             $require_apache_modules = ['mod_rewrite'];
-            $apache_modules = @apache_get_modules();
+            $apache_modules = apache_get_modules();
 
             $apache_errors = [];
             $apache_success = [];
@@ -36,13 +36,15 @@ class Apache extends Problem
 
             if (empty($apache_errors)) {
                 $this->status = true;
-                $this->msg = 'All folders look good!';
+                $this->msg = 'All modules look good!';
             } else {
                 $this->status = false;
                 $this->msg = 'There were problems with required modules:';
             }
 
             $this->details = ['errors' => $apache_errors, 'success' => $apache_success];
+        } else {
+            $this->msg = 'Apache not installed, skipping...';
         }
 
         return $this;
