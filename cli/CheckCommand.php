@@ -47,8 +47,6 @@ class CheckCommand extends ConsoleCommand
 
         $problems = $checker->getProblems();
 
-
-
         $io->title('Grav Problems');
 
         $table = new Table($this->output);
@@ -92,9 +90,7 @@ class CheckCommand extends ConsoleCommand
                 foreach($success_row as $e_row) {
                     $rows[] = ['', new TableCell($e_row, array('colspan' => 3)), ];
                 }
-
             }
-
         }
 
         if (!empty($rows)) {
@@ -105,6 +101,5 @@ class CheckCommand extends ConsoleCommand
             $io->text('did not find anything to check...');
         }
     }
-
 }
 
