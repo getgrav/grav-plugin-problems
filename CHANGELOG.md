@@ -1,5 +1,5 @@
 # v2.0.0
-## 09/19/2018
+## 09/30/2018
 
 1. [](#new)
     * Completely rewritten to be much more flexible
