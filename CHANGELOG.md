@@ -1,3 +1,18 @@
+# v2.0.0
+## 09/30/2018
+
+1. [](#new)
+    * Completely rewritten to be much more flexible
+    * New _class_ based problems architecture for unified problem definition and reporting
+    * New `onProblemsInitialized()` plugin event for 3rd party plugins to add their own problem checks
+    * New more intuitive theme based on Spectre.css to display problems
+    * Storage of problem state to allow for displaying in admin plugin
+    * Now with 3 states `critical`, `warning`, and `notice`.  Only critical will stop the site working.
+    * Added some new PHP module checks
+    * Added a new `umask` permission check
+1. [](#improved)
+    * Implemented extra image checks [#17](https://github.com/getgrav/grav-plugin-problems/pull/17)
+
 # v1.4.7
 ## 05/16/2017
 
