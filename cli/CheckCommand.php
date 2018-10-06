@@ -50,7 +50,7 @@ class CheckCommand extends ConsoleCommand
         $io->title('Grav Problems');
 
         $table = new Table($this->output);
-        $table->setStyle('box');
+        $table->setStyle('default');
         $headers = ['ID', 'Status', 'Level', 'Message'];
         $rows = [];
 
