@@ -25,7 +25,7 @@ class ProblemsPlugin extends Plugin
 
     public function onFatalException()
     {
-        if ($this->isAdmin()) {
+        if (\defined('GRAV_CLI') || $this->isAdmin()) {
             return;
         }
 
@@ -39,7 +39,7 @@ class ProblemsPlugin extends Plugin
     {
         require __DIR__ . '/vendor/autoload.php';
 
-        if ($this->isAdmin()) {
+        if (\defined('GRAV_CLI') || $this->isAdmin()) {
             return;
         }
 
