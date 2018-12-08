@@ -1,5 +1,5 @@
 # v2.0.1
-## mm/dd/2018
+## 12/07/2018
 
 1. [](#new)
     * Added support for admin reporting available in Grav 1.6
