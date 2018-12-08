@@ -1,10 +1,10 @@
 <?php
 namespace Grav\Plugin;
 
-
 use Grav\Common\Plugin;
 use Grav\Common\Uri;
 use Grav\Plugin\Problems\Base\ProblemChecker;
+use RocketTheme\Toolbox\Event\Event;
 
 class ProblemsPlugin extends Plugin
 {
@@ -18,13 +18,14 @@ class ProblemsPlugin extends Plugin
     {
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 100001],
-            'onFatalException' => ['onFatalException', 0]
+            'onFatalException' => ['onFatalException', 0],
+            'onAdminGenerateReports' => ['onAdminGenerateReports', 0],
         ];
     }
 
     public function onFatalException()
     {
-        if ($this->isAdmin()) {
+        if (\defined('GRAV_CLI') || $this->isAdmin()) {
             return;
         }
 
@@ -36,11 +37,12 @@ class ProblemsPlugin extends Plugin
 
     public function onPluginsInitialized()
     {
-        if ($this->isAdmin()) {
+        require __DIR__ . '/vendor/autoload.php';
+
+        if (\defined('GRAV_CLI') || $this->isAdmin()) {
             return;
         }
 
-        require __DIR__ . '/vendor/autoload.php';
         $this->checker = new ProblemChecker();
 
         if (!$this->checker->statusFileExists()) {
@@ -75,6 +77,33 @@ class ProblemsPlugin extends Plugin
         echo $twig->render('problems.html.twig', $data);
         http_response_code(500);
         exit();
+    }
+
+    public function onAdminGenerateReports(Event $e)
+    {
+        $reports = $e['reports'];
+
+        $this->checker = new ProblemChecker();
+
+        // Check for problems
+        $this->problemsFound();
+
+        /** @var Uri $uri */
+        $uri = $this->grav['uri'];
+
+        /** @var \Twig_Environment $twig */
+        $twig = $this->getTwig();
+
+        $data = [
+            'problems' => $this->problems,
+            'base_url' => $baseUrlRelative = $uri->rootUrl(false),
+            'problems_url' => $baseUrlRelative . '/user/plugins/problems',
+        ];
+
+        $reports['Grav Potential Problems'] = $twig->render('reports/problems-report.html.twig', $data);
+
+        $this->grav['assets']->addCss('plugins://problems/css/admin.css');
+        $this->grav['assets']->addCss('plugins://problems/css/spectre-icons.css');
     }
 
     private function problemsFound()

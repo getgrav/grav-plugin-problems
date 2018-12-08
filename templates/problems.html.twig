@@ -21,43 +21,7 @@
             </p>
           </div>
 
-          <ul class="problems">
-            {% for problem in problems %}
-              {% set status = problem.status ? 'success' : problem.level == 'critical' ? 'error' : 'warning' %}
-              <li class="menu">
-                <div class="toast toast-{{ status }}">
-                  <strong>{{ problem.id }}:</strong>
-                  {{ problem.msg|raw }}
-                  {% if problem.help %}<a href="{{ problem.help }}" class="btn btn-sm btn-{{ status  }}" target="_blank"><i class="icon icon-bookmark"></i> Help</a>{% endif %}
-                </div>
-                {% if problem.details is iterable %}
-                  <ul class="details">
-                  {% for key,value in problem.details.errors %}
-                    <li class="menu-item">
-                      <div class="menu-badge">
-                        <label class="label label-error"><i class="icon icon-cross"></i></label>
-                      </div>
-                      <span class="active"><code>{{ key }}</code> - {{ value }}</span>
-                    </li>
-                  {% endfor %}
-
-                  {% for key,value in problem.details.success %}
-                    <li class="menu-item">
-                      <div class="menu-badge">
-                        <label class="label label-success"><i class="icon icon-check"></i></label>
-                      </div>
-                      <span class=""><code>{{ key }}</code> - {{ value }}</span>
-                    </li>
-                  {% endfor %}
-                  </ul>
-                {% endif %}
-              </li>
-
-              {#{% for msg in type %} %}#}
-                {#<li class="{{ type }}">{{ msg }}</li>#}
-              {#{% endfor %}#}
-            {% endfor %}
-          </ul>
+          {% include 'reports/problems-report.html.twig' %}
 
           <p class="footer text-center">
             <a href="http://getgrav.org">Grav</a> was <img src="{{ problems_url }}/assets/code-3.svg" /> with <img class="love" src="{{ problems_url }}/assets/heart.svg" /> by <a href="https://trilby.media">Trilby Media</a>.
