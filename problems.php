@@ -108,6 +108,10 @@ class ProblemsPlugin extends Plugin
 
     private function problemsFound()
     {
+        if (is_null($this->checker)) {
+            $this->checker = new ProblemChecker();
+        }
+
         $status = $this->checker->check(__DIR__ . '/classes/Problems');
         $this->problems = $this->checker->getProblems();
         
