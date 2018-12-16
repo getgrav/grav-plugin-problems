@@ -1,3 +1,9 @@
+# v2.0.2
+## 12/16/2018
+
+1. [](#bugfix)
+    * Fixed an issue with checker not being initialized on Fatal Error
+
 # v2.0.1
 ## 12/07/2018
 
