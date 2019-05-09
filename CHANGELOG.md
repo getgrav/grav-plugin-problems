@@ -1,9 +1,10 @@
 # v2.0.3
-## mm/dd/2019
+## 05/09/2019
 
 1. [](#new)
     * Code cleanup
     * Pass `phpstan` tests
+    * Added `ru` and `uk` translations [#23](https://github.com/getgrav/grav-plugin-problems/pull/23)
 
 # v2.0.2
 ## 12/16/2018
