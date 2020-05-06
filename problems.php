@@ -24,6 +24,7 @@ class ProblemsPlugin extends Plugin
             ],
             'onFatalException' => ['onFatalException', 0],
             'onAdminGenerateReports' => ['onAdminGenerateReports', 0],
+            'onAdminCompilePresetSCSS' => ['onAdminCompilePresetSCSS', 0]
         ];
     }
 
@@ -47,6 +48,16 @@ class ProblemsPlugin extends Plugin
         if ($this->problemsFound()) {
             $this->renderProblems();
         }
+    }
+
+    /**
+     * Add Flex-Object's preset.scss to the Admin Preset SCSS compile process
+     *
+     * @param Event $event
+     */
+    public function onAdminCompilePresetSCSS(Event $event): void
+    {
+        $event['scss']->add($this->grav['locator']->findResource('plugins://problems/scss/_preset.scss'));
     }
 
     public function onPluginsInitialized()
