@@ -1,3 +1,9 @@
+# v2.0.4
+## dd/mm/2020
+
+1. [](#bugfix)
+    * Fixed `onFatalException` being handled/rendered when in CLI and in Admin
+
 # v2.0.3
 ## 05/09/2019
 

@@ -22,7 +22,6 @@ class ProblemsPlugin extends Plugin
                 ['autoload', 100002],
                 ['onPluginsInitialized', 100001]
             ],
-            'onFatalException' => ['onFatalException', 0],
             'onAdminGenerateReports' => ['onAdminGenerateReports', 0],
             'onAdminCompilePresetSCSS' => ['onAdminCompilePresetSCSS', 0]
         ];
@@ -65,6 +64,10 @@ class ProblemsPlugin extends Plugin
         if (\defined('GRAV_CLI') || $this->isAdmin()) {
             return;
         }
+
+        $this->enable([
+            'onFatalException' => ['onFatalException', 0],
+        ]);
 
         $this->checker = new ProblemChecker();
 
