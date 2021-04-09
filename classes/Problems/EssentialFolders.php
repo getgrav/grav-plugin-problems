@@ -32,7 +32,7 @@ class EssentialFolders extends Problem
             USER_DIR . 'plugins' => false,
             USER_DIR . 'themes' => false,
             ROOT_DIR . 'vendor' => false,
-            (str_starts_with(GRAV_TMP_PATH, '/') ? '' : ROOT_DIR) . GRAV_TMP_PATH => false,
+            (str_starts_with(GRAV_TMP_PATH, '/') ? '' : ROOT_DIR) . GRAV_TMP_PATH => true,
         ];
 
         // Check for essential files & perms
