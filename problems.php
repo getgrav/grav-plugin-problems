@@ -1,4 +1,5 @@
 <?php
+
 namespace Grav\Plugin;
 
 use Composer\Autoload\ClassLoader;
@@ -6,10 +7,19 @@ use Grav\Common\Plugin;
 use Grav\Common\Uri;
 use Grav\Plugin\Problems\Base\ProblemChecker;
 use RocketTheme\Toolbox\Event\Event;
+use Twig\Environment;
+use Twig\Extension\DebugExtension;
+use Twig\Loader\FilesystemLoader;
 
+/**
+ * Class ProblemsPlugin
+ * @package Grav\Plugin
+ */
 class ProblemsPlugin extends Plugin
 {
+    /** @var ProblemChecker|null */
     protected $checker;
+    /** @var array */
     protected $problems = [];
 
     /**
@@ -32,12 +42,15 @@ class ProblemsPlugin extends Plugin
      *
      * @return ClassLoader
      */
-    public function autoload()
+    public function autoload(): ClassLoader
     {
         return require __DIR__ . '/vendor/autoload.php';
     }
 
-    public function onFatalException()
+    /**
+     * @return void
+     */
+    public function onFatalException(): void
     {
         if (\defined('GRAV_CLI') || $this->isAdmin()) {
             return;
@@ -49,7 +62,10 @@ class ProblemsPlugin extends Plugin
         }
     }
 
-    public function onPluginsInitialized()
+    /**
+     * @return void
+     */
+    public function onPluginsInitialized(): void
     {
         if (\defined('GRAV_CLI') || $this->isAdmin()) {
             return;
@@ -73,12 +89,15 @@ class ProblemsPlugin extends Plugin
         }
     }
 
-    private function renderProblems()
+    /**
+     * @return never-return
+     */
+    private function renderProblems(): void
     {
         /** @var Uri $uri */
         $uri = $this->grav['uri'];
 
-        /** @var \Twig_Environment $twig */
+        /** @var Environment $twig */
         $twig = $this->getTwig();
 
         $data = [
@@ -92,7 +111,11 @@ class ProblemsPlugin extends Plugin
         exit();
     }
 
-    public function onAdminGenerateReports(Event $e)
+    /**
+     * @param Event $e
+     * @return void
+     */
+    public function onAdminGenerateReports(Event $e): void
     {
         $reports = $e['reports'];
 
@@ -104,7 +127,7 @@ class ProblemsPlugin extends Plugin
         /** @var Uri $uri */
         $uri = $this->grav['uri'];
 
-        /** @var \Twig_Environment $twig */
+        /** @var Environment $twig */
         $twig = $this->getTwig();
 
         $data = [
@@ -119,7 +142,10 @@ class ProblemsPlugin extends Plugin
         $this->grav['assets']->addCss('plugins://problems/css/spectre-icons.css');
     }
 
-    private function problemsFound()
+    /**
+     * @return bool
+     */
+    private function problemsFound(): bool
     {
         if (null === $this->checker) {
             $this->checker = new ProblemChecker();
@@ -131,11 +157,14 @@ class ProblemsPlugin extends Plugin
         return $status;
     }
 
-    private function getTwig()
+    /**
+     * @return Environment
+     */
+    private function getTwig(): Environment
     {
-        $loader = new \Twig_Loader_Filesystem(__DIR__ . '/templates');
-        $twig = new \Twig_Environment($loader, ['debug' => true]);
-        $twig->addExtension(New \Twig_Extension_Debug());
+        $loader = new FilesystemLoader(__DIR__ . '/templates');
+        $twig = new Environment($loader, ['debug' => true]);
+        $twig->addExtension(New DebugExtension());
 
         return $twig;
     }

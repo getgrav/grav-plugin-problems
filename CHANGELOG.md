@@ -1,3 +1,12 @@
+# v2.1.0
+## mm/dd/2021
+
+1. [](#new)
+    * Requires **Grav 1.7.11**
+    * Support running Grav outside webroot
+1. [](#improved)
+    * Updated plugin code to the latest standards
+
 # v2.0.3
 ## 05/09/2019
 

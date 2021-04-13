@@ -5,6 +5,10 @@ namespace Grav\Plugin\Problems;
 use Grav\Common\Grav;
 use Grav\Plugin\Problems\Base\Problem;
 
+/**
+ * Class PHPModules
+ * @package Grav\Plugin\Problems
+ */
 class PHPModules extends Problem
 {
     public function __construct()
@@ -17,6 +21,9 @@ class PHPModules extends Problem
         $this->help = 'https://learn.getgrav.org/basics/requirements#php-requirements';
     }
 
+    /**
+     * @return $this
+     */
     public function process()
     {
         $modules_errors = [];

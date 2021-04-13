@@ -6,13 +6,19 @@ use Grav\Common\Cache;
 use Grav\Common\Grav;
 use RocketTheme\Toolbox\Event\Event;
 
+/**
+ * Class ProblemChecker
+ * @package Grav\Plugin\Problems\Base
+ */
 class ProblemChecker
 {
+    /** @var string */
     const PROBLEMS_PREFIX = 'problem-check-';
 
+    /** @var array */
     protected $problems = [];
+    /** @var string */
     protected $status_file;
-
 
     public function __construct()
     {
@@ -21,7 +27,10 @@ class ProblemChecker
         $this->status_file = CACHE_DIR . $this::PROBLEMS_PREFIX . $cache->getKey() . '.json';
     }
 
-    public function load()
+    /**
+     * @return bool
+     */
+    public function load(): bool
     {
         if ($this->statusFileExists()) {
             $json = file_get_contents($this->status_file) ?: '';
@@ -39,25 +48,37 @@ class ProblemChecker
         return true;
     }
 
-    public function getStatusFile()
+    /**
+     * @return string
+     */
+    public function getStatusFile():string
     {
         return $this->status_file;
     }
 
-    public function statusFileExists()
+    /**
+     * @return bool
+     */
+    public function statusFileExists(): bool
     {
         return file_exists($this->status_file);
     }
 
-
-    public function storeStatusFile()
+    /**
+     * @return void
+     */
+    public function storeStatusFile(): void
     {
         $problems = $this->getProblemsSerializable();
         $json = json_encode($problems);
         file_put_contents($this->status_file, $json);
     }
 
-    public function check($problems_dir = null)
+    /**
+     * @param string|null $problems_dir
+     * @return bool
+     */
+    public function check($problems_dir = null): bool
     {
         $problems_dir = $problems_dir ?: dirname(__DIR__);
         $problems = [];
@@ -96,7 +117,10 @@ class ProblemChecker
         return $problems_found;
     }
 
-    public function getProblems()
+    /**
+     * @return array
+     */
+    public function getProblems(): array
     {
         if (empty($this->problems)) {
             $this->check();
@@ -114,7 +138,10 @@ class ProblemChecker
         return $problems;
     }
 
-    public function getProblemsSerializable()
+    /**
+     * @return array
+     */
+    public function getProblemsSerializable(): array
     {
         if (empty($this->problems)) {
             $this->getProblems();
@@ -126,5 +153,4 @@ class ProblemChecker
         }
         return $problems;
     }
-
 }
