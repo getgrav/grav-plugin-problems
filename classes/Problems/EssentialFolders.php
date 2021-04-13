@@ -54,7 +54,9 @@ class EssentialFolders extends Problem
 
             if (!is_dir($file_path)) {
                 $file_errors[$file_path] = 'does not exist';
-            } elseif ($check_writable && !is_writable($file_path)) {
+            } elseif (!$check_writable) {
+                $file_success[$file_path] = 'exists';
+            } elseif (!is_writable($file_path)) {
                 $file_errors[$file_path] = 'exists but is <strong>not writeable</strong>';
             } else {
                 $file_success[$file_path] = 'exists and is writable';
