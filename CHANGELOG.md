@@ -5,6 +5,7 @@
     * Requires **Grav 1.7.11**
     * Support running Grav outside webroot [#29](https://github.com/getgrav/grav-plugin-problems/pull/29)
     * Added check whether `user/accounts` is writable [#25](https://github.com/getgrav/grav-plugin-problems/issues/25)
+    * Not all folders need to be writable, reflect that [#30](https://github.com/getgrav/grav-plugin-problems/pull/30)
     * Added check whether JSON extension is installed
 1. [](#improved)
     * Updated plugin code to the latest standards
