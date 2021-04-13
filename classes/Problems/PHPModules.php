@@ -99,6 +99,14 @@ class PHPModules extends Problem
         }
 
         // Check for PHP XML library
+        $msg = 'PHP JSON Library is %s installed';
+        if (extension_loaded('json')) {
+            $modules_success['json'] = sprintf($msg, 'successfully');
+        } else {
+            $modules_errors['json'] = sprintf($msg, 'required but not');
+        }
+
+        // Check for PHP XML library
         $msg = 'PHP XML Library is %s installed';
         if (extension_loaded('xml')) {
             $modules_success['xml'] = sprintf($msg, 'successfully');
