@@ -1,5 +1,5 @@
 # v2.1.0
-## mm/dd/2021
+## 04/13/2021
 
 1. [](#new)
     * Requires **Grav 1.7.11**
@@ -9,6 +9,8 @@
     * Added check whether JSON extension is installed
 1. [](#improved)
     * Updated plugin code to the latest standards
+1. [](#bugfix)
+    * Fixed `onFatalException` being handled/rendered when in CLI and in Admin
 
 # v2.0.3
 ## 05/09/2019

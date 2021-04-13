@@ -32,8 +32,8 @@ class ProblemsPlugin extends Plugin
                 ['autoload', 100002],
                 ['onPluginsInitialized', 100001]
             ],
-            'onFatalException' => ['onFatalException', 0],
             'onAdminGenerateReports' => ['onAdminGenerateReports', 0],
+            'onAdminCompilePresetSCSS' => ['onAdminCompilePresetSCSS', 0]
         ];
     }
 
@@ -63,6 +63,16 @@ class ProblemsPlugin extends Plugin
     }
 
     /**
+     * Add Flex-Object's preset.scss to the Admin Preset SCSS compile process
+     *
+     * @param Event $event
+     */
+    public function onAdminCompilePresetSCSS(Event $event): void
+    {
+        $event['scss']->add($this->grav['locator']->findResource('plugins://problems/scss/_preset.scss'));
+    }
+
+    /**
      * @return void
      */
     public function onPluginsInitialized(): void
@@ -70,6 +80,10 @@ class ProblemsPlugin extends Plugin
         if (\defined('GRAV_CLI') || $this->isAdmin()) {
             return;
         }
+
+        $this->enable([
+            'onFatalException' => ['onFatalException', 0],
+        ]);
 
         $this->checker = new ProblemChecker();
 
