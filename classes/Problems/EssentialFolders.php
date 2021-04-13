@@ -36,6 +36,7 @@ class EssentialFolders extends Problem
             GRAV_WEBROOT => false,
             GRAV_WEBROOT . '/images' => true,
             GRAV_WEBROOT . '/assets' => true,
+            GRAV_WEBROOT . '/' . GRAV_USER_PATH .'/accounts' => true,
             GRAV_WEBROOT . '/' . GRAV_USER_PATH .'/data' => true,
             GRAV_WEBROOT . '/' . GRAV_USER_PATH .'/pages' => false,
             GRAV_WEBROOT . '/' . GRAV_USER_PATH .'/config' => false,
