@@ -84,14 +84,17 @@ class ProblemChecker
         $problems = [];
         $problems_found = false;
 
-        foreach (new \DirectoryIterator($problems_dir) as $file) {
-            if ($file->isDot() || $file->isDir()) {
+        $iterator = new \DirectoryIterator($problems_dir);
+        foreach ($iterator as $file) {
+            if (!$file->isFile() || $file->getExtension() !== 'php') {
                 continue;
             }
             $classname = 'Grav\\Plugin\\Problems\\' . $file->getBasename('.php');
-            /** @var Problem $problem */
-            $problem = new $classname();
-            $problems[$problem->getId()] = $problem;
+            if (class_exists($classname)) {
+                /** @var Problem $problem */
+                $problem = new $classname();
+                $problems[$problem->getId()] = $problem;
+            }
         }
 
         // Fire event to allow other plugins to add problems

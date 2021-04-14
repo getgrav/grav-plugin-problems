@@ -1,3 +1,10 @@
+# v2.1.1
+## 04/14/2021
+
+1. [](#bugfix)
+    * Fixed a check for loading problem classes [#32](https://github.com/getgrav/grav-plugin-problems/issues/32)
+    * Regression: folders check fails in Windows [#31](https://github.com/getgrav/grav-plugin-problems/issues/31)
+
 # v2.1.0
 ## 04/13/2021
 
