@@ -1,5 +1,5 @@
 # v2.1.1
-## mm/dd/2021
+## 04/14/2021
 
 1. [](#bugfix)
     * Fixed a check for loading problem classes [#32](https://github.com/getgrav/grav-plugin-problems/issues/32)
