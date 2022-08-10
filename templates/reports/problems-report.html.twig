@@ -18,6 +18,15 @@
             </li>
           {% endfor %}
 
+          {% for key,value in problem.details.warning %}
+            <li class="menu-item">
+              <div class="menu-badge">
+                <label class="label label-warning"><i class="icon icon-flag"></i></label>
+              </div>
+              <span class=""><code>{{ key }}</code> - {{ value|raw }}</span>
+            </li>
+          {% endfor %}
+
           {% for key,value in problem.details.success %}
             <li class="menu-item">
               <div class="menu-badge">
