@@ -52,7 +52,7 @@ class Apache extends Problem
 
             $this->details = ['errors' => $apache_errors, 'success' => $apache_success];
         } else {
-            $this->msg = 'Apache not installed, skipping...';
+            $this->msg = 'Apache is not installed or PHP is not installed as Apache module, skipping...';
         }
 
         return $this;
