@@ -1,7 +1,14 @@
-## 12/28/2022
+# v2.2.0
+## mm/dd/2025
 
 1. [](#improved)
    * Make sure the Essential Folders are listed without extra '/' in front of them
+
+# v2.1.2
+## 10/22/2024
+
+1. [](#improved)
+    * Improved `gd` module check [#36](https://github.com/getgrav/grav-plugin-problems/pull/36)
 
 # v2.1.1
 ## 04/14/2021
