@@ -1,3 +1,9 @@
+# v2.2.0
+## mm/dd/2025
+
+1. [](#improved)
+   * Make sure the Essential Folders are listed without extra '/' in front of them
+
 # v2.1.2
 ## 10/22/2024
 
