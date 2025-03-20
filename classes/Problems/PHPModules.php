@@ -11,6 +11,10 @@ use Grav\Plugin\Problems\Base\Problem;
  */
 class PHPModules extends Problem
 {
+    protected $modules_errors  = [];
+    protected $modules_warning = [];
+    protected $modules_success = [];
+
     public function __construct()
     {
         $this->id = 'PHP Modules';
@@ -22,36 +26,56 @@ class PHPModules extends Problem
     }
 
     /**
+     * @param string $module           PHP module name.
+     * @param bool   $required         If it is required for grav.
+     * @param string $module_show_name More common module name to display.
+     * @return void
+     */
+    protected function check_php_module(string $module, bool $required, string $module_show_name = ''): void{
+        $msg = 'PHP ';
+        $msg .= (($module_show_name!=='') ? $module_show_name : $module);
+        $msg .= ' is %s installed';
+        if(extension_loaded($module)){
+            $this->modules_success[$module] = sprintf($msg, 'successfully');
+        }else if($required){
+            $this->modules_errors[$module] = sprintf($msg, 'required but not');
+        }else{
+            $this->modules_warning[$module] = sprintf($msg, 'recommended but not');
+        }
+    }
+
+    /**
+     * @param string $module           PHP cache module name.
+     * @param string $module_show_name More common module name to display.
+     * @return void
+     */
+    protected function check_cache_module(string $module, string $module_show_name = ''): void{
+        $msg = 'PHP (optional) Cache ';
+        $msg .= (($module_show_name!=='') ? $module_show_name : $module);
+        $msg .= ' is %s installed';
+        if( extension_loaded($module) ){
+            $this->modules_success[$module] = sprintf($msg, 'successfully');
+        } else {
+            $this->modules_warning[$module] = sprintf($msg, 'not');
+        }
+    }
+
+    /**
      * @return $this
      */
     public function process()
     {
-        $modules_errors = [];
-        $modules_success = [];
-
         // Check for PHP CURL library
-        $msg = 'PHP Curl (Data Transfer Library) is %s installed';
-        if (function_exists('curl_version')) {
-            $modules_success['curl'] = sprintf($msg, 'successfully');
-        } else {
-            $modules_errors['curl'] = sprintf($msg, 'required but not');
-        }
+        $this->check_php_module('curl', true, 'Curl (Data Transfer Library)');
 
         // Check for PHP Ctype library
-        $msg = 'PHP Ctype is %s installed';
-        if (function_exists('ctype_print')) {
-            $modules_success['ctype'] = sprintf($msg, 'successfully');
-        } else {
-            $modules_errors['ctype'] = sprintf($msg, 'required but not');
-        }
+        $this->check_php_module('ctype', true, 'Ctype');
 
         // Check for PHP Dom library
-        $msg = 'PHP DOM is %s installed';
-        if (class_exists('DOMDocument')) {
-            $modules_success['dom'] = sprintf($msg, 'successfully');
-        } else {
-            $modules_errors['dom'] = sprintf($msg, 'required but not');
-        }
+        $this->check_php_module('dom', true, 'DOM');
+
+        // Check for PHP fileinfo library
+        $this->check_php_module('fileinfo', false);
 
         // Check for GD library
         $msg = 'PHP GD (Image Manipulation Library) is %s installed';
@@ -76,73 +100,69 @@ class PHPModules extends Problem
             }
 
             if ($problems_found) {
-                $msg .= ' but missing ' . $gda_msg;
+                $this->modules_warning['gd'] = $msg . ' but missing ' . $gda_msg;
             }
 
-            $modules_success['gd'] = $msg;
+            $this->modules_success['gd'] = $msg;
         } else {
-            $modules_errors['gd'] = sprintf($msg, 'required but not');
+            $this->modules_errors['gd'] = sprintf($msg, 'required but not');
         }
 
         // Check for PHP MbString library
-        $msg = 'PHP Mbstring (Multibyte String Library) is %s installed';
-        if (extension_loaded('mbstring')) {
-            $modules_success['mbstring'] = sprintf($msg, 'successfully');
-        } else {
-            $modules_errors['mbstring'] = sprintf($msg, 'required but not');
-        }
+        $this->check_php_module('mbstring', true, 'Mbstring (Multibyte String Library)');
+
+        // Check for PHP iconv library
+        $this->check_php_module('iconv', false);
+
+        // Check for PHP intl library
+        $required = Grav::instance()['config']->get('system.intl_enabled');
+        $this->check_php_module('intl', $required, 'intl (Internationalization Functions)');
 
         // Check for PHP Open SSL library
-        $msg = 'PHP OpenSSL (Secure Sockets Library) is %s installed';
-        if (defined('OPENSSL_VERSION_TEXT') && extension_loaded('openssl')) {
-            $modules_success['openssl'] = sprintf($msg, 'successfully');
-        } else {
-            $modules_errors['openssl'] = sprintf($msg, 'required but not');
-        }
+        $this->check_php_module('openssl', true, 'OpenSSL (Secure Sockets Library)');
 
-        // Check for PHP XML library
-        $msg = 'PHP JSON Library is %s installed';
-        if (extension_loaded('json')) {
-            $modules_success['json'] = sprintf($msg, 'successfully');
-        } else {
-            $modules_errors['json'] = sprintf($msg, 'required but not');
-        }
+        // Check for PHP JSON library
+        $this->check_php_module('json', true, 'JSON Library');
 
-        // Check for PHP XML library
-        $msg = 'PHP XML Library is %s installed';
-        if (extension_loaded('xml')) {
-            $modules_success['xml'] = sprintf($msg, 'successfully');
-        } else {
-            $modules_errors['xml'] = sprintf($msg, 'required but not');
-        }
+        // Check for PHP libraries for symfony
+        $this->check_php_module('PCRE', true, 'PCRE (Perl Compatible Regular Expressions)');
+        $this->check_php_module('session', true);
+
+        // Check for PHP XML libraries
+        $this->check_php_module('libxml', true, 'libxml Library');
+        $this->check_php_module('simplexml', true, 'SimpleXML Library');
+        $this->check_php_module('xml', true, 'XML Library');
+
+        // Check for PHP yaml library
+        $this->check_php_module('yaml', false);
 
         // Check for PHP Zip library
-        $msg = 'PHP Zip extension is %s installed';
-        if (extension_loaded('zip')) {
-            $modules_success['zip'] = sprintf($msg, 'successfully');
-        } else {
-            $modules_errors['zip'] = sprintf($msg, 'required but not');
-        }
+        $this->check_php_module('zip', true, 'Zip extension');
 
         // Check Exif if enabled
-        if (Grav::instance()['config']->get('system.media.auto_metadata_exif')) {
-            $msg = 'PHP Exif (Exchangeable Image File Format) is %s installed';
-            if (extension_loaded('exif')) {
-                $modules_success['exif'] = sprintf($msg, 'successfully');
-            } else {
-                $modules_errors['exif'] = sprintf($msg, 'required but not');
-            }
-        }
+        $required = Grav::instance()['config']->get('system.media.auto_metadata_exif');
+        $this->check_php_module('exif', $required, 'Exif (Exchangeable Image File Format)');
 
-        if (empty($modules_errors)) {
+        // Check cache modules
+        $this->check_cache_module('apcu', 'APC User Cache');
+        $this->check_cache_module('memcache');
+        $this->check_cache_module('memcached');
+        $this->check_cache_module('redis');
+        $this->check_cache_module('wincache', 'WinCache');
+        $this->check_cache_module('zend opcache', 'Zend OPcache');
+
+        if (empty($this->modules_errors)) {
             $this->status = true;
-            $this->msg = 'All modules look good!';
+            $this->msg = 'All required modules look good!';
+            if(!empty($this->modules_warning)) {
+                $this->msg .= ' Some recommendations do exist.';
+            }
         } else {
             $this->status = false;
             $this->msg = 'There were problems with required modules:';
         }
 
-        $this->details = ['errors' => $modules_errors, 'success' => $modules_success];
+        $this->details = ['errors' => $this->modules_errors, 'warning' => $this->modules_warning, 'success' => $this->modules_success];
 
         return $this;
     }
