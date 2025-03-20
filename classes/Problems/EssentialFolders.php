@@ -51,6 +51,7 @@ class EssentialFolders extends Problem
 
         foreach ($essential_folders as $file => $check_writable) {
             $file_path = (!preg_match('`^(/|[a-z]:[\\\/])`ui', $file) ? GRAV_ROOT . '/' : '') . $file;
+            $file_path = preg_replace('`^/*`', '/', $file_path);
 
             if (!is_dir($file_path)) {
                 $file_errors[$file_path] = 'does not exist';

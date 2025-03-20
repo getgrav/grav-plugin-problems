@@ -1,13 +1,13 @@
 name: Problems
 slug: problems
 type: plugin
-version: 2.1.2
+version: 2.2.0
 description: Detects and reports problems found in the site.
 icon: exclamation-circle
 author:
   name: Team Grav
   email: devs@getgrav.org
-  url: http://getgrav.org
+  url: https://getgrav.org
 homepage: https://github.com/getgrav/grav-plugin-problems
 keywords: problems, plugin, detector, assistant, required
 bugs: https://github.com/getgrav/grav-plugin-problems/issues

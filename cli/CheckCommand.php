@@ -69,11 +69,18 @@ class CheckCommand extends ConsoleCommand
             if (is_array($details)) {
 
                 $errors_row = [];
+                $warning_row = [];
                 $success_row = [];
 
                 if (isset($details['errors'])) {
                     foreach ($details['errors'] as $key => $value) {
                         $errors_row[] = "<red>✗</red> <yellow>{$key} → {$value}</yellow>";
+                    }
+                }
+
+                if (isset($details['warning'])) {
+                    foreach ($details['warning'] as $key => $value) {
+                        $warning_row[] = "<yellow>⚑</yellow> {$key} → {$value}";
                     }
                 }
 
@@ -84,6 +91,10 @@ class CheckCommand extends ConsoleCommand
                 }
 
                 foreach($errors_row as $e_row) {
+                    $rows[] = ['', new TableCell($e_row, array('colspan' => 3)), ];
+                }
+            
+                foreach($warning_row as $e_row) {
                     $rows[] = ['', new TableCell($e_row, array('colspan' => 3)), ];
                 }
 
