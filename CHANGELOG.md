@@ -1,5 +1,5 @@
 # v2.2.0
-## mm/dd/2025
+## 03/20/2025
 
 1. [](#new)
     * Extended php module checks [#38](https://github.com/getgrav/grav-plugin-problems/pull/38)  
