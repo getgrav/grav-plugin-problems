@@ -1,3 +1,9 @@
+# v2.2.1
+## 03/21/2025
+
+1. [](#bugfix)
+    * Fix path check on windows [#44](https://github.com/getgrav/grav-plugin-problems/pull/44)
+
 # v2.2.0
 ## 03/20/2025
 
