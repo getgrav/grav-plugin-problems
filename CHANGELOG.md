@@ -2,7 +2,7 @@
 ## 03/21/2025
 
 1. [](#bugfix)
-    * Fix permission warning on Windows [#46](https://github.com/getgrav/grav-plugin-problems/pull/46
+    * Fix permission warning on Windows [#46](https://github.com/getgrav/grav-plugin-problems/pull/46)
 
 # v2.2.1
 ## 03/21/2025
