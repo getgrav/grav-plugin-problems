@@ -115,8 +115,7 @@ class PHPModules extends Problem
         $this->check_php_module('iconv', false);
 
         // Check for PHP intl library
-        $required = Grav::instance()['config']->get('system.intl_enabled');
-        $this->check_php_module('intl', $required, 'intl (Internationalization Functions)');
+        $this->check_php_module('intl', false, 'intl (Internationalization Functions)');
 
         // Check for PHP Open SSL library
         $this->check_php_module('openssl', true, 'OpenSSL (Secure Sockets Library)');
