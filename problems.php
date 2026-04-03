@@ -33,6 +33,7 @@ class ProblemsPlugin extends Plugin
                 ['onPluginsInitialized', 100001]
             ],
             'onAdminGenerateReports' => ['onAdminGenerateReports', 0],
+            'onApiGenerateReports' => ['onApiGenerateReports', 0],
             'onAdminCompilePresetSCSS' => ['onAdminCompilePresetSCSS', 0]
         ];
     }
@@ -154,6 +155,44 @@ class ProblemsPlugin extends Plugin
 
         $this->grav['assets']->addCss('plugins://problems/css/admin.css');
         $this->grav['assets']->addCss('plugins://problems/css/spectre-icons.css');
+    }
+
+    /**
+     * API reports integration — provides structured problem data + web component.
+     *
+     * @param Event $e
+     * @return void
+     */
+    public function onApiGenerateReports(Event $e): void
+    {
+        $this->checker = new ProblemChecker();
+        $this->problemsFound();
+
+        $hasCritical = false;
+        $items = [];
+        foreach ($this->problems as $problem) {
+            $item = $problem->toArray();
+            unset($item['class'], $item['order']);
+            $items[] = $item;
+
+            if (!$problem->getStatus() && $problem->getLevel() === 'critical') {
+                $hasCritical = true;
+            }
+        }
+
+        $reports = $e['reports'];
+        $reports[] = [
+            'id' => 'problems',
+            'title' => 'Grav Potential Problems',
+            'provider' => 'problems',
+            'component' => 'problems-report',
+            'status' => $hasCritical ? 'error' : 'success',
+            'message' => $hasCritical
+                ? 'Critical problems found that need attention.'
+                : 'No critical problems detected.',
+            'items' => $items,
+        ];
+        $e['reports'] = $reports;
     }
 
     /**
