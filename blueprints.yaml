@@ -1,7 +1,7 @@
 name: Problems
 slug: problems
 type: plugin
-version: 2.2.3
+version: 3.0.0
 description: Detects and reports problems found in the site.
 icon: exclamation-circle
 author:
@@ -12,9 +12,11 @@ homepage: https://github.com/getgrav/grav-plugin-problems
 keywords: problems, plugin, detector, assistant, required
 bugs: https://github.com/getgrav/grav-plugin-problems/issues
 license: MIT
+compatibility:
+  grav: ['1.7', '2.0']
 
 dependencies:
-    - { name: grav, version: '>=1.7.11' }
+  - { name: grav, version: '>=1.7.11' }
 
 form:
   validation: strict
