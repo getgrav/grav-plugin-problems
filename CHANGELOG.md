@@ -1,3 +1,9 @@
+# v3.0.2
+## 11/18/2026
+
+1. [](#improved)
+    * The PHP Modules check lists SQLite (`pdo_sqlite`) as recommended. Grav runs without it, but plugins and tools that keep a local database need it, and some Linux distributions package it separately (on Ubuntu, `php8.3-sqlite3`)
+
 # v3.0.1
 ## 07/21/2026
 
