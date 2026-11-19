@@ -135,6 +135,11 @@ class PHPModules extends Problem
         // Check for PHP yaml library
         $this->check_php_module('yaml', false);
 
+        // Check for PHP SQLite (PDO driver): Grav runs without it, but plugins
+        // and tools that keep a local database (search indexes, the Guard
+        // Agent) need it, and some distributions package it separately
+        $this->check_php_module('pdo_sqlite', false, 'SQLite (PDO driver)');
+
         // Check for PHP Zip library
         $this->check_php_module('zip', true, 'Zip extension');
 
